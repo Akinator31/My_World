@@ -4,11 +4,9 @@ on:
   push:
     branches:
       - main
-      - exec
   pull_request:
     branches:
       - main
-      - exec
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -40,5 +38,5 @@ jobs:
             echo "🚨 $ERRORS erreurs de coding style détectées !"
             exit 1
           else
-            echo "👽️ Aucun problème de coding style détecté !"
+            echo "✅ Aucun problème de coding style détecté !"
           fi
