@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Installer les dépendences
-        run: sudo apt update && sudo apt install -y gcc make clang
+        run: sudo apt update && sudo apt install -y gcc make clang && sudo apt install libcsfml-graphics2.5 libcsfml-audio2.5 libcsfml-dev libcsfml-doc libcsfml-network2.5 libcsfml-system2.5 libcsfml-window2.5
 
       - name: Compiler le projet
         run: make
