@@ -39,8 +39,8 @@ int update_game_scene(scene_t *scene, engine_t *engine)
     while (temp != NULL) {
         if (((entity_t *)(temp->data))->id == 2) {
             set_sprite_hover(((entity_t *)(temp->data))->sprite, engine,
-            engine->ressources->quit_button_hover,
-            engine->ressources->quit_button);
+            GET_RES("quit_button_hover"),
+            GET_RES("quit_button"));
         }
         if (MOUSE_PRESSED() && IS_ENTITY(2) &&
             IS_CLICK(((entity_t *)(temp->data))->sprite))
@@ -69,10 +69,10 @@ scene_t *init_game_scene(engine_t *engine)
     scene_t *game_scene = malloc(sizeof(scene_t));
 
     srand(time(NULL));
-    sfMusic_setLoop(GET_RES(game_music), sfTrue);
+    sfMusic_setLoop(GET_RES("game_music"), sfTrue);
     entity_list = push_front_list_all(entity_list, 2,
-        create_entity(GET_RES(quit_button), POS(30, 30), 2, NULL),
-        create_entity(GET_RES(game_background), POS(0, 0), 1, NULL));
+        create_entity(GET_RES("quit_button"), POS(30, 30), 2, NULL),
+        create_entity(GET_RES("game_bg"), POS(0, 0), 1, NULL));
     game_scene->id = 3;
     game_scene->clock = sfClock_create();
     game_scene->entity_list = entity_list;

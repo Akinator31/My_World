@@ -11,7 +11,7 @@
 void mute_or_unmute_music(engine_t *engine, int mute_or_unmute)
 {
     if (mute_or_unmute)
-        sfMusic_pause(engine->ressources->menu_music);
+        sfMusic_pause(GET_RES("menu_music"));
     else
-        sfMusic_play(engine->ressources->menu_music);
+        sfMusic_play(GET_RES("menu_music"));
 }

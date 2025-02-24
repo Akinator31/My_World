@@ -34,13 +34,13 @@ int update_button_hover_main(scene_t *scene, engine_t *engine)
     while (temp != NULL) {
         if (IS_ENTITY(2))
             set_sprite_hover(GET_SPRITE(), engine,
-                GET_RES(play_button_hover), GET_RES(play_button));
+            GET_RES("start_button_hover"), GET_RES("start_button"));
         if (IS_ENTITY(3))
             set_sprite_hover(GET_SPRITE(), engine,
-                GET_RES(quit_button_hover), GET_RES(quit_button));
+            GET_RES("quit_button_hover"), GET_RES("quit_button"));
         if (IS_ENTITY(4))
             set_sprite_hover(GET_SPRITE(), engine,
-            GET_RES(settings_button_hover), GET_RES(settings_button));
+            GET_RES("settings_button_hover"), GET_RES("settings_button"));
         temp = temp->next;
     }
     return 1;
@@ -85,20 +85,19 @@ scene_t *init_main_page(engine_t *engine)
     linked_list_t *entity_list = new_list();
     scene_t *main_scene = malloc(sizeof(scene_t));
 
-    sfMusic_setLoop(GET_RES(menu_music), sfTrue);
-    sfMusic_play(GET_RES(menu_music));
+    sfMusic_setLoop(GET_RES("menu_music"), sfTrue);
+    sfMusic_play(GET_RES("menu_music"));
     entity_list = push_front_list_all(entity_list, 4,
-        create_entity(GET_RES(play_button), POS(150, 800), 2, NULL),
-        create_entity(GET_RES(quit_button), POS(1736, 30), 3, NULL),
-        create_entity(GET_RES(settings_button), POS(500, 800), 4, NULL),
-        create_entity(GET_RES(background), POS(0, 0), 1, NULL));
+        create_entity(GET_RES("start_button"), POS(150, 800), 2, NULL),
+        create_entity(GET_RES("quit_button"), POS(1736, 30), 3, NULL),
+        create_entity(GET_RES("settings_button"), POS(500, 800), 4, NULL),
+        create_entity(GET_RES("background"), POS(0, 0), 1, NULL));
     main_scene->id = 1;
     main_scene->entity_list = entity_list;
     main_scene->scene_render = &render_main_page;
     main_scene->scene_update = &update_main_page;
     main_scene->scene_destroy = &destroy_main_page;
     engine->state = RUNNING;
-    engine->score = 0;
     engine->current_scene = main_scene;
     return main_scene;
 }
