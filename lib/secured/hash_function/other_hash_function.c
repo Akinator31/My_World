@@ -20,6 +20,14 @@ int calcul_nb_pair(int temp, char *key, int i, int nbr)
         return nbr;
 }
 
+void compute_power(int *nbr, int len, int *k)
+{
+    while (*k <= len) {
+        *nbr *= (len * len);
+        *k += 1;
+    }
+}
+
 int hash(char *key, int len)
 {
     int temp = 0;
@@ -37,10 +45,7 @@ int hash(char *key, int len)
             nbr += temp;
         }
         nbr = calcul_nb_pair(temp, key, i, nbr);
-        while (k <= len) {
-            nbr *= (len * len);
-            k++;
-        }
+        compute_power(&nbr, len, &k);
     }
     nbr *= k;
     return nbr;

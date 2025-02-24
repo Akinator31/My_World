@@ -20,17 +20,17 @@ static void print_dec_oct_hex_integer(va_list *list, int *nb_output_char)
 
 static void print_string(va_list *list, int *nb_output_char)
 {
-    (void)nb_output_char;
     char *str = (char *)va_arg(*list, char *);
 
+    (void)nb_output_char;
     my_putstr(str);
 }
 
 static void print_char(va_list *list, int *nb_output_char)
 {
-    (void)nb_output_char;
     char character = va_arg(*list, int);
 
+    (void)nb_output_char;
     my_putchar(character);
 }
 
@@ -41,7 +41,8 @@ static void print_percent(va_list *list, int *nb_output_char)
     my_putchar('%');
 }
 
-void compute_flags(int *nb_output_char, const char *format, int index, va_list *list)
+void compute_flags(int *nb_output_char, const char *format,
+    int index, va_list *list)
 {
     int i;
     static const format_specifier_t specifier_arr[] = {
