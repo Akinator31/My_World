@@ -8,13 +8,13 @@
 #include <stdlib.h>
 #include "hashtable.h"
 
-data_t *free_elem(data_t *data, int code)
+data_t *free_elem(data_t *data, int code, void (*destroy)(void *))
 {
     data_t *tmp = data;
     data_t *list = data;
 
     if (code == data->cripted_code) {
-        free(data->name);
+        destroy(data->name);
         data = data->next;
         free(tmp);
         return data;
@@ -22,7 +22,7 @@ data_t *free_elem(data_t *data, int code)
     while (list != NULL && list->next != NULL) {
         if (code == list->next->cripted_code) {
             tmp = list->next;
-            free(list->next->name);
+            destroy(list->next->name);
             list->next = list->next->next;
             free(tmp);
         }
@@ -31,7 +31,7 @@ data_t *free_elem(data_t *data, int code)
     return data;
 }
 
-int ht_delete(hashtable_t *ht, char *key)
+int ht_delete(hashtable_t *ht, char *key, void (*destroy)(void *))
 {
     data_t **data = NULL;
     int i = 0;
@@ -41,7 +41,7 @@ int ht_delete(hashtable_t *ht, char *key)
     i = abs(ht->hash(key, ht->len)) % ht->len;
     data = ht->hash_data;
     if (data[i] != NULL) {
-        data[i] = free_elem(data[i], abs(ht->hash(key, ht->len)));
+        data[i] = free_elem(data[i], abs(ht->hash(key, ht->len)), destroy);
     }
     return 0;
 }

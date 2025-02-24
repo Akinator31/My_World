@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include "hashtable.h"
 
-char *ht_search(hashtable_t *ht, char *key)
+void *ht_search(hashtable_t *ht, char *key)
 {
     data_t **data = NULL;
     data_t *tmp = NULL;

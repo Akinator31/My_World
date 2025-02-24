@@ -20,7 +20,7 @@ void ht_dump(hashtable_t *ht)
         tmp = data[i];
         mini_printf("[%d]:\n", i);
         while (tmp != NULL) {
-            mini_printf("> %d - %s\n", tmp->cripted_code, tmp->name);
+            mini_printf("> %d\n", tmp->cripted_code);
             tmp = tmp->next;
         }
     }
