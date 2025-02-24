@@ -6,9 +6,8 @@
 */
 
 #include <stdlib.h>
-#include "../include/hashtable.h"
-#include "../include/struct.h"
-#include "../include/my.h"
+#include "my_lib.h"
+#include "hashtable.h"
 
 int ht_insert(hashtable_t *ht, char *key, char *value)
 {
@@ -28,4 +27,5 @@ int ht_insert(hashtable_t *ht, char *key, char *value)
     my_strcpy(tmp->name, value);
     tmp->next = data[elem];
     data[elem] = tmp;
+    return 0;
 }

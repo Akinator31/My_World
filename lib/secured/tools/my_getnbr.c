@@ -4,7 +4,8 @@
 ** File description:
 ** my_getnbr.c
 */
-#include "../include/my.h"
+
+#include "hashtable.h"
 
 int my_getnbr(char const *str)
 {

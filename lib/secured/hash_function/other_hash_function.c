@@ -4,9 +4,10 @@
 ** File description:
 ** other_hash_function.c
 */
-#include "../include/struct.h"
-#include "../include/my.h"
+
+#include <stdlib.h>
 #include <math.h>
+#include "hashtable.h"
 
 int calcul_nb_pair(int temp, char *key, int i, int nbr)
 {
@@ -17,6 +18,14 @@ int calcul_nb_pair(int temp, char *key, int i, int nbr)
             nbr += temp;
         }
         return nbr;
+}
+
+void compute_power(int *nbr, int len, int *k)
+{
+    while (*k <= len) {
+        *nbr *= (len * len);
+        *k += 1;
+    }
 }
 
 int hash(char *key, int len)
@@ -36,8 +45,7 @@ int hash(char *key, int len)
             nbr += temp;
         }
         nbr = calcul_nb_pair(temp, key, i, nbr);
-        for (k; k <= len; k++)
-            nbr *= (len * len);
+        compute_power(&nbr, len, &k);
     }
     nbr *= k;
     return nbr;

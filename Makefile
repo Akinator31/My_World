@@ -24,38 +24,55 @@ NAME = my_world
 DEBUG_NAME = debug
 OPTIMIZATION_NAME = optimization
 
+.PHONY: all
 all: $(NAME)
 
+status:
+	@echo "\033[31mBuilding project ...\033[0m";
+
 build/%.o: %.c
-	mkdir -p $(dir $@)
-	gcc $(CFLAGS) -c $< -o $@
+	@mkdir -p $(dir $@)
+	@echo "\033[31mBuilding $<\033[0m";
+	@gcc $(CFLAGS) -c $< -o $@
 
 build-debug/%.o: %.c
-	mkdir -p $(dir $@)
+	@mkdir -p $(dir $@)
+	@echo "\033[31mBuilding $<\033[0m";
 	gcc $(DEBUG_FLAGS) -c $< -o $@
 
 build-optimization/%.o: %.c
-	mkdir -p $(dir $@)
+	@mkdir -p $(dir $@)
+	@echo "\033[31mBuilding $<\033[0m";
 	gcc $(OPTIMIZATION_FLAGS) -c $< -o $@
 
-$(NAME): $(OBJ)
-		gcc -o $(NAME) $(OBJ) $(CFLAGS)
+.PHONY: $(NAME)
+$(NAME): status $(OBJ)
+	@gcc -o $(NAME) $(OBJ) $(CFLAGS);
+	@echo "\033[32mProject build successfully !\033[0m";
 
+.PHONY: $(DEBUG_NAME)
 $(DEBUG_NAME): $(OBJ_DEBUG)
 	gcc -o $(DEBUG_NAME) $(OBJ_DEBUG) $(DEBUG_FLAGS)
+	@echo "\033[32mProject build successfully !\033[0m";
 
+.PHONY: $(OPTIMIZATION_NAME)
 $(OPTIMIZATION_NAME): $(OBJ_OPTIMIZATION)
 	gcc -o $(OPTIMIZATION_NAME) $(OBJ_OPTIMIZATION) $(OPTIMIZATION_FLAGS)
+	@echo "\033[32mProject build successfully !\033[0m";
 
+.PHONY: clean
 clean:
 	$(shell find . -type f -name "*.o" -delete)
 
+.PHONY: fclean
 fclean:
-	rm -f $(NAME)
-	rm -f $(DEBUG_NAME)
-	rm -f $(OPTIMIZATION_NAME)
-	rm -rf build-optimization
-	rm -rf build-debug
-	rm -rf build
+	@rm -f $(NAME)
+	@rm -f $(DEBUG_NAME)
+	@rm -f $(OPTIMIZATION_NAME)
+	@rm -rf build-optimization
+	@rm -rf build-debug
+	@rm -rf build
+	@echo "\033[32mProject cleaned !$<\033[0m";
 
+.PHONY: re
 re: fclean all

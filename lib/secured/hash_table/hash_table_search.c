@@ -5,9 +5,8 @@
 ** ashe_table_search
 */
 
-#include "../include/hashtable.h"
-#include "../include/struct.h"
-#include "../include/my.h"
+#include <stdlib.h>
+#include "hashtable.h"
 
 char *ht_search(hashtable_t *ht, char *key)
 {

@@ -18,7 +18,7 @@
 
 int main(int ac, char **av, char **envp)
 {
-    engine_t *engine;
+    engine_t *engine = NULL;
 
     if (ac > 1)
         return help(ac, av);

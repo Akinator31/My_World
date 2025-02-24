@@ -6,7 +6,7 @@
 */
 
 #include <stdlib.h>
-#include "../include/my.h"
+#include "hashtable.h"
 
 char *nbr_in_str(int nbr)
 {
