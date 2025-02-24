@@ -12,6 +12,7 @@
 #include "my_world.h"
 #include "structure.h"
 #include "ressources.h"
+#include "hashtable.h"
 #include "scenes.h"
 #include "utils.h"
 
@@ -26,7 +27,7 @@ int tty_checker(char **envp)
 
 engine_t *load_game(unsigned int default_framerate, char **envp)
 {
-    engine_t *engine = malloc(sizeof(*engine));
+    engine_t *engine = malloc(sizeof(engine_t));
 
     if (!tty_checker(envp)) {
         free(engine);
@@ -66,8 +67,7 @@ int engine_destroy(engine_t *engine)
     clean_scene(engine->scenes_list);
     sfRenderWindow_destroy(engine->window);
     sfClock_destroy(engine->clock);
-    ((ressource_manager_t *)(engine->ressources))->
-        destroy_ressources(engine->ressources);
+    destroy_ressources(engine->ressources);
     free(engine->ressources);
     free(engine);
     return 0;

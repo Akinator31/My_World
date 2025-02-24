@@ -12,11 +12,14 @@
     #include <stdbool.h>
     #include "my_list.h"
     #include "my_lib.h"
+    #include "hashtable.h"
     #define POS(x, y) ((sfVector2f){(x), (y)})
     #define AREA(x, y) ((sfIntRect){(x), (y)})
-    #define TX_CREATE(res, i) res = sfTexture_createFromFile(assets[i], NULL)
-    #define MUSIC_CREATE(res, i) res = sfMusic_createFromFile(assets[i])
-    #define GET_RES(name) engine->ressources->name
+    #define TX_CREATE(i) sfTexture_createFromFile(assets[i].path, NULL)
+    #define MUSIC_CREATE(i) sfMusic_createFromFile(assets[i].path)
+    #define FONT_CREATE(i) sfFont_createFromFile(assets[i].path)
+    #define IS(n) e == n
+    #define GET_RES(name) ht_search(engine->ressources->hashtable, name)
     #define GET_SPRITE() ((entity_t *)(temp->data))->sprite
     #define MOUSE_RELEASED() engine->event.type == sfEvtMouseButtonReleased
     #define MOUSE_PRESSED() engine->event.type == sfEvtMouseButtonPressed
@@ -29,11 +32,19 @@ typedef struct engine_s engine_t;
 typedef struct scene_s scene_t;
 typedef struct entity_s entity_t;
 typedef struct ressource_manager_s ressource_manager_t;
+typedef struct assets_s assets_t;
+typedef enum assets_type_s assets_type_t;
+
+enum assets_type_s {
+    IMAGE,
+    MUSIC,
+    FONT,
+};
 
 enum entity_state {
     ACTIVE,
     TOUCH,
-    OFF_SCREEN
+    OFF_SCREEN,
 };
 
 enum game_state {
@@ -64,7 +75,6 @@ struct engine_s {
     int default_fps_framerate;
     int music_state;
     int music_selector;
-    int score;
 };
 
 struct scene_s {
@@ -94,37 +104,14 @@ struct entity_s {
 };
 
 struct ressource_manager_s {
-    sfTexture *background;
-    sfTexture *play_button;
-    sfTexture *play_button_hover;
-    sfTexture *quit_button;
-    sfTexture *quit_button_hover;
-    sfTexture *settings_button;
-    sfTexture *settings_button_hover;
-    sfTexture *sound_on_button;
-    sfTexture *sound_on_button_hover;
-    sfTexture *sound_off_button;
-    sfTexture *sound_off_button_hover;
-    sfTexture *back_button;
-    sfTexture *back_button_hover;
-    sfTexture *settings_background;
-    sfTexture *res_900;
-    sfTexture *res_1920;
-    sfTexture *res_4k;
-    sfTexture *res_900_hover;
-    sfTexture *res_1920_hover;
-    sfTexture *res_4k_hover;
-    sfTexture *game_background;
-    sfTexture *pause_button;
-    sfTexture *pause_button_hover;
-    sfTexture *resume_button;
-    sfTexture *resume_button_hover;
-    sfTexture *chicken;
-    sfTexture *special;
-    sfMusic *menu_music;
-    sfMusic *game_music;
-    sfFont *font;
-    void (*destroy_ressources)(ressource_manager_t *ressources);
+    hashtable_t *hashtable;
+    void (*destroy)(ressource_manager_t *);
+};
+
+struct assets_s {
+    char *name;
+    char *path;
+    assets_type_t type;
 };
 
 #endif
