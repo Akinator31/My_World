@@ -8,6 +8,12 @@
 #ifndef INCLUDED_UTILS_H
     #define INCLUDED_UTILS_H
     #include <SFML/Graphics.h>
+    #include "engine.h"
+    #define ANGLE_X 45
+    #define ANGLE_Y 35
+    #define TAB_SIZE 100
+    #define OFFSET_X 1000
+    #define OFFSET_Y 100
 
 sfRenderWindow *create_window(unsigned int width,
     unsigned int heigth, char *window_title);

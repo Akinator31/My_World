@@ -12,21 +12,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include "utils.h"
 
-#define angle_x 45
-#define angle_y 35
-#define tab_size 100
-#define offset_x 1000
-#define offset_y 100
-
-sfVector2f project_iso_point(int x ,int y ,float z)
+sfVector2f project_iso_point(int x, int y, float z)
 {
     sfVector2f point2d;
 
-    point2d.x = (cos(angle_x * M_PI / 180) * x -
-        cos(angle_x * M_PI / 180) * y) * tab_size + offset_x;
-    point2d.y = (sin(angle_y * M_PI / 180) * y +
-        sin(angle_y * M_PI / 180) * x - z) * tab_size + offset_y;
+    point2d.x = (cos(ANGLE_X * M_PI / 180) * x -
+        cos(ANGLE_X * M_PI / 180) * y) * TAB_SIZE + OFFSET_X;
+    point2d.y = (sin(ANGLE_Y * M_PI / 180) * y +
+        sin(ANGLE_Y * M_PI / 180) * x - z) * TAB_SIZE + OFFSET_Y;
     return point2d;
 }
 
@@ -43,5 +38,5 @@ sfVector2f **create_2d_map(int **map3D)
         for (int j = 0; map3D[j] != NULL; j++)
         map2D[i][j] = project_iso_point(i, j, map3D[i][j] / 1.5);
     }
-    return map2D;    
+    return map2D;
 }
