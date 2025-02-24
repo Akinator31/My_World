@@ -2,31 +2,26 @@
 ** EPITECH PROJECT, 2025
 ** B-CPE-110-TLS-1-1-secured-alexy.legrand
 ** File description:
-** delete_ashe_table
+** ashe_table_dump
 */
 
 #include <stdlib.h>
-#include "../include/hashtable.h"
-#include "../include/struct.h"
+#include "hashtable.h"
 
-void delete_hashtable(hashtable_t *ht)
+void ht_dump(hashtable_t *ht)
 {
     data_t **data = NULL;
     data_t *tmp = NULL;
-    data_t *to_delete = NULL;
 
     if (ht == NULL)
         return;
     data = ht->hash_data;
     for (int i = 0; i < ht->len; i++) {
         tmp = data[i];
+        mini_printf("[%d]:\n", i);
         while (tmp != NULL) {
-            free(tmp->name);
-            to_delete = tmp;
+            mini_printf("> %d - %s\n", tmp->cripted_code, tmp->name);
             tmp = tmp->next;
-            free(to_delete);
         }
     }
-    free(data);
-    free(ht);
 }

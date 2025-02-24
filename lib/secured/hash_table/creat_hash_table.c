@@ -5,9 +5,8 @@
 ** creat_ashe_table
 */
 
-#include "../include/my.h"
-#include "../include/hashtable.h"
-#include "../include/struct.h"
+#include <stdlib.h>
+#include "hashtable.h"
 
 hashtable_t *new_hashtable(int (*hash)(char *, int), int len)
 {

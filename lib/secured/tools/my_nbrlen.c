@@ -5,7 +5,6 @@
 ** my_nbrlen
 */
 
-
 int my_nbrlen(int nbr)
 {
     int size = 0;

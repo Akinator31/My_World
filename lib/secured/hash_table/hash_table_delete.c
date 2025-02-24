@@ -6,9 +6,7 @@
 */
 
 #include <stdlib.h>
-#include "../include/hashtable.h"
-#include "../include/struct.h"
-#include "../include/my.h"
+#include "hashtable.h"
 
 data_t *free_elem(data_t *data, int code)
 {
@@ -36,7 +34,6 @@ data_t *free_elem(data_t *data, int code)
 int ht_delete(hashtable_t *ht, char *key)
 {
     data_t **data = NULL;
-    data_t *tmp = NULL;
     int i = 0;
 
     if (ht == NULL || key == NULL)
@@ -46,4 +43,5 @@ int ht_delete(hashtable_t *ht, char *key)
     if (data[i] != NULL) {
         data[i] = free_elem(data[i], abs(ht->hash(key, ht->len)));
     }
+    return 0;
 }
