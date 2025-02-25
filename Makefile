@@ -45,7 +45,6 @@ build-optimization/%.o: %.c
 	@echo "\033[31mBuilding $<\033[0m";
 	gcc $(OPTIMIZATION_FLAGS) -c $< -o $@
 
-.PHONY: $(NAME)
 $(NAME): status $(OBJ)
 	@gcc -o $(NAME) $(OBJ) $(CFLAGS);
 	@echo "\033[32mProject build successfully !\033[0m";
