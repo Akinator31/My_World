@@ -35,6 +35,7 @@ int update_game_scene(scene_t *scene, engine_t *engine)
 {
     linked_list_t *temp = scene->entity_list;
 
+    draw_2d_map(engine);
     switch_game_music(engine);
     while (temp != NULL) {
         if (((entity_t *)(temp->data))->id == 2) {

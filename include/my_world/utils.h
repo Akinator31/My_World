@@ -13,7 +13,7 @@
     #define ANGLE_Y 35
     #define TAB_SIZE 100
     #define OFFSET_X 1000
-    #define OFFSET_Y 100
+    #define OFFSET_Y 50
 
 sfRenderWindow *create_window(unsigned int width,
     unsigned int heigth, char *window_title);
@@ -28,5 +28,7 @@ void switch_menu_music(engine_t *engine);
 void switch_pause_music(engine_t *engine);
 int help(int ac, char **av);
 sfVector2f get_random_pos(engine_t *engine);
-
+int **create_array_int(int size);
+sfVector2f **create_2d_map(int **map3D);
+int draw_2d_map(engine_t *engine);
 #endif

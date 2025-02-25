@@ -56,6 +56,14 @@ static const assets_t assets[] = {
     {"menu_music", "assets/sounds/menu-music.ogg", MUSIC},
     {"game_music", "assets/sounds/game-music.ogg", MUSIC},
     {"BungeeSpice_Regular", "assets/fonts/BungeeSpice-Regular.ttf", FONT},
+    {"button_10", "assets/images/creat_map_menu/buttons/10.png", IMAGE},
+    {"button_10_hover", "assets/images/creat_map_menu/buttons/hover/10_hover.png", IMAGE},
+    {"button_50", "assets/images/creat_map_menu/buttons/50.png", IMAGE},
+    {"button_50_hover", "assets/images/creat_map_menu/buttons/hover/50_hover.png", IMAGE},
+    {"button_100", "assets/images/creat_map_menu/buttons/100.png", IMAGE},
+    {"button_100_hover", "assets/images/creat_map_menu/buttons/hover/100_hover.png", IMAGE},
+    {"button_load", "assets/images/creat_map_menu/buttons/load.png", IMAGE},
+    {"button_load_hover", "assets/images/creat_map_menu/buttons/hover/load_hover.png", IMAGE},
     {NULL, NULL, 0},
 };
 
