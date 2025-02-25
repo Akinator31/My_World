@@ -31,12 +31,11 @@ void render_creat_map_scene(scene_t *scene, engine_t *engine)
     }
 }
 
-int update_button_hover_creat_map_scene(scene_t *scene, engine_t *engine)
+void update_button_hover_creat_map_scene(scene_t *scene, engine_t *engine)
 {
-    linked_list_t *temp = scene->entity_list;
-
     switch_menu_music(engine);
-    while (temp != NULL) {
+    for (linked_list_t *temp = scene->entity_list; temp != NULL;
+        temp = temp->next) {
         if (IS_ENTITY(1))
             set_sprite_hover(GET_SPRITE(), engine,
             GET_RES("start_button_hover"), GET_RES("start_button"));
@@ -52,9 +51,18 @@ int update_button_hover_creat_map_scene(scene_t *scene, engine_t *engine)
         if (IS_ENTITY(5))
             set_sprite_hover(GET_SPRITE(), engine,
             GET_RES("quit_button_hover"), GET_RES("quit_button"));
-        temp = temp->next;
     }
-    return 1;
+}
+
+void set_map_size(int entity, int size, engine_t *engine, linked_list_t *temp)
+{
+    if (MOUSE_PRESSED() && IS_ENTITY(entity) &&
+        IS_CLICK(((entity_t *)(temp->data))->sprite)) {
+        engine->map3D = create_array_int(size);
+        engine->map2D = create_2d_map(engine->map3D);
+        engine->size_tab = size;
+        engine->current_scene = get_scene_by_id(engine, 3);
+    }
 }
 
 int update_creat_map_scene(scene_t *scene, engine_t *engine)
@@ -63,34 +71,16 @@ int update_creat_map_scene(scene_t *scene, engine_t *engine)
 
     update_button_hover_creat_map_scene(scene, engine);
     while (temp != NULL) {
-        if (MOUSE_PRESSED() && IS_ENTITY(1) &&
-            IS_CLICK(((entity_t *)(temp->data))->sprite)) {
-            engine->map3D = create_array_int(10);
-            engine->map2D = create_2d_map(engine->map3D);
-            engine->size_tab = 10;
-            engine->current_scene = get_scene_by_id(engine, 3);
-        }
-        if (MOUSE_PRESSED() && IS_ENTITY(2) &&
-            IS_CLICK(((entity_t *)(temp->data))->sprite)) {
-            engine->map3D = create_array_int(50);
-            engine->map2D = create_2d_map(engine->map3D);
-            engine->size_tab = 50;
-            engine->current_scene = get_scene_by_id(engine, 3);
-        }
-        if (MOUSE_PRESSED() && IS_ENTITY(3) &&
-            IS_CLICK(((entity_t *)(temp->data))->sprite)) {
-            engine->map3D = create_array_int(100);
-            engine->map2D = create_2d_map(engine->map3D);
-            engine->size_tab = 100;
-            engine->current_scene = get_scene_by_id(engine, 3);
-        }
+        set_map_size(1, 10, engine, temp);
+        set_map_size(2, 50, engine, temp);
+        set_map_size(3, 100, engine, temp);
         if (MOUSE_PRESSED() && IS_ENTITY(4) &&
             IS_CLICK(((entity_t *)(temp->data))->sprite)) {
             engine->current_scene = get_scene_by_id(engine, 3);
         }
         if (MOUSE_PRESSED() && IS_ENTITY(5) &&
             IS_CLICK(((entity_t *)(temp->data))->sprite))
-            engine->current_scene = get_scene_by_id(engine, 1);   
+            engine->current_scene = get_scene_by_id(engine, 1);
         temp = temp->next;
     }
     return 0;
@@ -117,9 +107,11 @@ scene_t *init_creat_map_scene(engine_t *engine)
     srand(time(NULL));
     sfMusic_setLoop(GET_RES("game_music"), sfTrue);
     entity_list = push_front_list_all(entity_list, 5,
-        create_entity(GET_RES("start_button"), POS(960 - 150 - 500, 400), 1, NULL),
+        create_entity(GET_RES("start_button"), POS(960 - 150 - 500, 400),
+            1, NULL),
         create_entity(GET_RES("start_button"), POS(960 - 150, 400), 2, NULL),
-        create_entity(GET_RES("start_button"), POS(960 - 150 + 500, 400), 3, NULL),
+        create_entity(GET_RES("start_button"), POS(960 - 150 + 500, 400),
+            3, NULL),
         create_entity(GET_RES("start_button"), POS(960 - 150, 700), 4, NULL),
         create_entity(GET_RES("start_button"), POS(1736, 30), 5, NULL));
     creat_map_scene->id = 4;
