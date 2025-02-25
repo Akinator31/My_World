@@ -62,7 +62,7 @@ int update_main_page(scene_t *scene, engine_t *engine)
         }
         if (MOUSE_PRESSED() && IS_ENTITY(2) &&
             IS_CLICK(((entity_t *)(temp->data))->sprite))
-                engine->current_scene = get_scene_by_id(engine, 3);
+                engine->current_scene = get_scene_by_id(engine, 4);
         temp = temp->next;
     }
     return 0;

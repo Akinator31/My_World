@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include "structure.h"
 
 sfVertexArray *create_line(sfVector2f *point1, sfVector2f *point2)
 {
@@ -25,23 +26,26 @@ sfVertexArray *create_line(sfVector2f *point1, sfVector2f *point2)
     return (vertex_array);
 }
 
-static int draw_vertex(sfVector2f **map2D,
-    sfRenderWindow *window, int i, int j)
+static int draw_vertex(engine_t *engine, int i, int j)
 {
-    if (i + 1 < 6)
-        sfRenderWindow_drawVertexArray(window,
-            create_line(&map2D[i][j], &map2D[i + 1][j]), NULL);
-    if (j + 1 < 6)
-        sfRenderWindow_drawVertexArray(window,
-            create_line(&map2D[i][j], &map2D[i][j + 1]), NULL);
+    if (i + 1 < engine->size_tab)
+        sfRenderWindow_drawVertexArray(engine->window,
+            create_line(&engine->map2D[i][j], &engine->map2D[i + 1][j]), NULL);
+    if (j + 1 < engine->size_tab)
+        sfRenderWindow_drawVertexArray(engine->window,
+            create_line(&engine->map2D[i][j], &engine->map2D[i][j + 1]), NULL);
     return 0;
 }
 
-int draw_2d_map(sfRenderWindow *window, sfVector2f **map2D)
+int draw_2d_map(engine_t *engine)
 {
-    for (int i = 0; map2D[i] != NULL; i++) {
-        for (int j = 0; map2D[j] != NULL; j++) {
-            draw_vertex(map2D, window, i, j);
+    if (engine->map2D == NULL) {
+        printf("jepasse\n");
+        return 84;
+    }
+    for (int i = 0; engine->map2D[i] != NULL; i++) {
+        for (int j = 0; engine->map2D[j] != NULL; j++) {
+            draw_vertex(engine, i, j);
         }
     }
     return 0;
