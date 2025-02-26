@@ -1,17 +1,18 @@
 /*
 ** EPITECH PROJECT, 2025
-** G-ING-200-TLS-2-1-myworld-pavel.de-wavrechin [WSL : Ubuntu]
+** G-ING-200-TLS-2-1-myworld-pavel.de-wavrechin
 ** File description:
 ** settings_page
 */
 
 #include <SFML/Graphics.h>
 #include <stdlib.h>
+#include "scenes.h"
 #include "my_world.h"
 #include "structure.h"
 #include "entity.h"
 #include "my_list.h"
-#include "event.h"
+#include "events.h"
 #include "utils.h"
 
 static void render_settings_page(scene_t *scene, engine_t *engine)
@@ -30,16 +31,16 @@ int update_button_hover_settings(scene_t *scene, engine_t *engine)
     linked_list_t *temp = scene->entity_list;
 
     while (temp != NULL) {
-        if (((entity_t *)(temp->data))->id == 3)
+        if (is_entity_from_node(temp, 3))
             set_sprite_hover(GET_SPRITE(), engine,
                 GET_RES("back_hover"), GET_RES("back"));
-        if (((entity_t *)(temp->data))->id == 4)
+        if (is_entity_from_node(temp, 4))
             set_sprite_hover(GET_SPRITE(), engine,
                 GET_RES("900_hover"), GET_RES("900"));
-        if (((entity_t *)(temp->data))->id == 5)
+        if (is_entity_from_node(temp, 5))
             set_sprite_hover(GET_SPRITE(), engine,
                 GET_RES("1920_hover"), GET_RES("1920"));
-        if (((entity_t *)(temp->data))->id == 6)
+        if (is_entity_from_node(temp, 6))
             set_sprite_hover(GET_SPRITE(), engine,
                 GET_RES("4k_hover"), GET_RES("4k"));
         temp = temp->next;
@@ -52,18 +53,18 @@ void update_resolution_game(scene_t *scene, engine_t *engine)
     linked_list_t *temp = scene->entity_list;
 
     while (temp != NULL) {
-        if (MOUSE_PRESSED() && IS_ENTITY(4) &&
-            IS_CLICK(((entity_t *)(temp->data))->sprite)) {
+        if (is_event_on_entity(engine, temp, 4) &&
+            !check_screen_size(engine, SF_VECTOR_2U(900, 600))) {
             sfRenderWindow_setPosition(engine->window, SF_VECTOR_2I(0, 0));
             sfRenderWindow_setSize(engine->window, SF_VECTOR_2U(900, 600));
         }
-        if (MOUSE_PRESSED() && IS_ENTITY(5) &&
-            IS_CLICK(((entity_t *)(temp->data))->sprite)) {
+        if (is_event_on_entity(engine, temp, 5) &&
+            !check_screen_size(engine, SF_VECTOR_2U(1920, 1080))) {
             sfRenderWindow_setPosition(engine->window, SF_VECTOR_2I(0, 0));
             sfRenderWindow_setSize(engine->window, SF_VECTOR_2U(1920, 1080));
         }
-        if (MOUSE_PRESSED() && IS_ENTITY(6) &&
-            IS_CLICK(((entity_t *)(temp->data))->sprite)) {
+        if (is_event_on_entity(engine, temp, 6) &&
+            !check_screen_size(engine, SF_VECTOR_2U(3840, 2160))) {
             sfRenderWindow_setPosition(engine->window, SF_VECTOR_2I(0, 0));
             sfRenderWindow_setSize(engine->window, SF_VECTOR_2U(3840, 2160));
         }
@@ -78,11 +79,11 @@ int update_settings_page(scene_t *scene, engine_t *engine)
     update_button_hover_settings(scene, engine);
     update_resolution_game(scene, engine);
     while (temp != NULL) {
-        if (MOUSE_RELEASED() && IS_ENTITY(3) &&
-            IS_CLICK(((entity_t *)(temp->data))->sprite)) {
-            engine->current_scene = get_scene_by_id(engine, 1);
+        if (is_event_on_entity(engine, temp, 3)) {
+            sleep_while_event(engine, sfEvtMouseButtonPressed);
+            change_scene(engine, 1);
         }
-        if (((entity_t *)(temp->data))->id == 2) {
+        if (is_entity_from_node(temp, 2)) {
             manage_music(engine, temp->data);
         }
         temp = temp->next;
@@ -113,7 +114,7 @@ scene_t *init_settings_page(engine_t *engine)
         create_entity(GET_RES("900"), POS(100, 700), 4, NULL),
         create_entity(GET_RES("back"), POS(1736, 30), 3, NULL),
         create_entity(GET_RES("sound_on"),
-            POS(100, 500), 2, NULL),
+            POS(355, 500), 2, NULL),
         create_entity(GET_RES("settings_bg"),
             POS(0, 0), 1, NULL));
     main_scene->id = 2;
