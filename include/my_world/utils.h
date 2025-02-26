@@ -28,5 +28,6 @@ void switch_menu_music(engine_t *engine);
 void switch_pause_music(engine_t *engine);
 int help(int ac, char **av);
 sfVector2f get_random_pos(engine_t *engine);
+int check_screen_size(engine_t *engine, sfVector2u request_size);
 
 #endif
