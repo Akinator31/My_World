@@ -13,92 +13,148 @@
 #include "ressources.h"
 
 static const assets_t assets[] = {
-    {"background", "assets/images/main_menu/bg.png", IMAGE},
+    {"background", "assets/images/main_menu/bg.png", TEXTURE},
     {"start_button", "assets/images/main_menu/buttons/start_button.png",
-        IMAGE},
+        TEXTURE},
     {"start_button_hover", "assets/images/main_menu/buttons/hover/"
-        "start_button_hover.png", IMAGE},
-    {"quit_button", "assets/images/main_menu/buttons/quit_button.png", IMAGE},
+        "start_button_hover.png", TEXTURE},
+    {"quit_button", "assets/images/main_menu/buttons/quit_button.png",
+        TEXTURE},
     {"quit_button_hover", "assets/images/main_menu/buttons/hover/"
-        "quit_button_hover.png", IMAGE},
+        "quit_button_hover.png", TEXTURE},
     {"settings_button", "assets/images/main_menu/buttons/"
-        "settings_button.png", IMAGE},
+        "settings_button.png", TEXTURE},
     {"settings_button_hover", "assets/images/main_menu/buttons/hover/"
-        "settings_button_hover.png", IMAGE},
-    {"sound_on", "assets/images/settings_menu/buttons/sound_on.png", IMAGE},
+        "settings_button_hover.png", TEXTURE},
+    {"sound_on", "assets/images/settings_menu/buttons/sound_on.png", TEXTURE},
     {"sound_on_hover", "assets/images/settings_menu/buttons/hover/"
-        "sound_on_hover.png", IMAGE},
-    {"sound_off", "assets/images/settings_menu/buttons/sound_off.png", IMAGE},
+        "sound_on_hover.png", TEXTURE},
+    {"sound_off", "assets/images/settings_menu/buttons/sound_off.png",
+        TEXTURE},
     {"sound_off_hover", "assets/images/settings_menu/buttons/hover/"
-        "sound_off_hover.png", IMAGE},
-    {"back", "assets/images/settings_menu/buttons/back_button.png", IMAGE},
+        "sound_off_hover.png", TEXTURE},
+    {"back", "assets/images/settings_menu/buttons/back_button.png", TEXTURE},
     {"back_hover", "assets/images/settings_menu/buttons/hover/"
-        "back_button_hover.png", IMAGE},
-    {"settings_bg", "assets/images/settings_menu/settings_bg.png", IMAGE},
-    {"900", "assets/images/settings_menu/buttons/900.png", IMAGE},
-    {"1920", "assets/images/settings_menu/buttons/1920.png", IMAGE},
-    {"4k", "assets/images/settings_menu/buttons/4k.png", IMAGE},
+        "back_button_hover.png", TEXTURE},
+    {"settings_bg", "assets/images/settings_menu/settings_bg.png", TEXTURE},
+    {"900", "assets/images/settings_menu/buttons/900.png", TEXTURE},
+    {"1920", "assets/images/settings_menu/buttons/1920.png", TEXTURE},
+    {"4k", "assets/images/settings_menu/buttons/4k.png", TEXTURE},
     {"900_hover", "assets/images/settings_menu/buttons/hover/"
-        "900_hover.png", IMAGE},
+        "900_hover.png", TEXTURE},
     {"1920_hover", "assets/images/settings_menu/buttons/hover/"
-        "1920_hover.png", IMAGE},
+        "1920_hover.png", TEXTURE},
     {"4k_hover", "assets/images/settings_menu/buttons/hover/"
-        "4k_hover.png", IMAGE},
-    {"game_bg", "assets/images/game_scene/game_bg.png", IMAGE},
-    {"pause", "assets/images/game_scene/buttons/pause.png", IMAGE},
+        "4k_hover.png", TEXTURE},
+    {"game_bg", "assets/images/game_scene/game_bg.png", TEXTURE},
+    {"pause", "assets/images/game_scene/buttons/pause.png", TEXTURE},
     {"pause_hover", "assets/images/game_scene/buttons/hover/"
-        "pause_hover.png", IMAGE},
-    {"play", "assets/images/game_scene/buttons/play.png", IMAGE},
+        "pause_hover.png", TEXTURE},
+    {"play", "assets/images/game_scene/buttons/play.png", TEXTURE},
     {"play_hover", "assets/images/game_scene/buttons/hover/"
-        "play_hover.png", IMAGE},
+        "play_hover.png", TEXTURE},
     {"chicken_sprite_sheet_1", "assets/images/game_scene/"
-        "chicken_sprite_sheet_1.png", IMAGE},
+        "chicken_sprite_sheet_1.png", TEXTURE},
     {"menu_music", "assets/sounds/menu-music.ogg", MUSIC},
     {"game_music", "assets/sounds/game-music.ogg", MUSIC},
     {"BungeeSpice_Regular", "assets/fonts/BungeeSpice-Regular.ttf", FONT},
+    {"icon", "assets/images/icon.png", IMAGE},
     {NULL, NULL, 0},
 };
 
-ressource_manager_t *create_ressources(void)
+static int create_texture_in_hashtable(engine_t *engine,
+    ressource_manager_t *ressource, int asset_index)
 {
+    sfTexture *texture = sfTexture_createFromFile(
+        assets[asset_index].path, NULL);
+
+    if (!texture) {
+        engine->state = ERROR;
+        return 0;
+    }
+    ht_insert(ressource->hashtable, assets[asset_index].name, texture);
+    return 1;
+}
+
+static int create_image_in_hashtable(engine_t *engine,
+    ressource_manager_t *ressource, int asset_index)
+{
+    sfImage *image = sfImage_createFromFile(
+        assets[asset_index].path);
+
+    if (!image) {
+        engine->state = ERROR;
+        return 0;
+    }
+    ht_insert(ressource->hashtable, assets[asset_index].name, image);
+    return 1;
+}
+
+static int create_music_in_hashtable(engine_t *engine,
+    ressource_manager_t *ressource, int asset_index)
+{
+    sfMusic *music = sfMusic_createFromFile(
+        assets[asset_index].path);
+
+    if (!music) {
+        engine->state = ERROR;
+        return 0;
+    }
+    ht_insert(ressource->hashtable, assets[asset_index].name, music);
+    return 1;
+}
+
+static int create_font_in_hashtable(engine_t *engine,
+    ressource_manager_t *ressource, int asset_index)
+{
+    sfFont *font = sfFont_createFromFile(
+        assets[asset_index].path);
+
+    if (!font) {
+        engine->state = ERROR;
+        return 0;
+    }
+    ht_insert(ressource->hashtable, assets[asset_index].name, font);
+    return 1;
+}
+
+ressource_manager_t *create_ressources(engine_t *engine)
+{
+    int result = 1;
     ressource_manager_t *ressources = malloc(sizeof(ressource_manager_t));
 
     ressources->hashtable = new_hashtable(&hash, 30);
     for (int i = 0; assets[i].name; i++) {
-        switch (assets[i].type) {
-        case IMAGE:
-            ht_insert(ressources->hashtable, assets[i].name, TX_CREATE(i));
-            break;
-        case MUSIC:
-            ht_insert(ressources->hashtable, assets[i].name, MUSIC_CREATE(i));
-            break;
-        case FONT:
-            ht_insert(ressources->hashtable, assets[i].name, FONT_CREATE(i));
-            break;
-        default:
-            break;
-        }
+        if (assets[i].type == TEXTURE)
+            result = create_texture_in_hashtable(engine, ressources, i);
+        if (assets[i].type == MUSIC)
+            result = create_music_in_hashtable(engine, ressources, i);
+        if (assets[i].type == FONT)
+            result = create_font_in_hashtable(engine, ressources, i);
+        if (assets[i].type == IMAGE)
+            result = create_image_in_hashtable(engine, ressources, i);
+        if (!result)
+            return ressources;
     }
     return ressources;
 }
 
 void destroy_ressources(ressource_manager_t *ressources)
 {
-    hashtable_t *table = ressources->hashtable;
+    hashtable_t *table = NULL;
 
+    if (!ressources)
+        return;
+    table = ressources->hashtable;
     for (int i = 0; assets[i].name; i++) {
-        switch (assets[i].type) {
-        case IMAGE:
+        if (assets[i].type == TEXTURE)
             ht_delete(table, assets[i].name, CAST_VOID(sfTexture_destroy));
-            break;
-        case MUSIC:
+        if (assets[i].type == MUSIC)
             ht_delete(table, assets[i].name, CAST_VOID(sfMusic_destroy));
-            break;
-        case FONT:
+        if (assets[i].type == FONT)
             ht_delete(table, assets[i].name, CAST_VOID(sfFont_destroy));
-        default:
-            break;
-        }
+        if (assets[i].type == IMAGE)
+            ht_delete(table, assets[i].name, CAST_VOID(sfImage_destroy));
     }
     delete_hashtable(table);
 }

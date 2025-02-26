@@ -11,7 +11,7 @@
     #include "structure.h"
     #define CAST_VOID(f) (void (*)(void *)) f
 
-ressource_manager_t *create_ressources(void);
+ressource_manager_t *create_ressources(engine_t *engine);
 void destroy_ressources(ressource_manager_t *ressources);
 
 #endif
