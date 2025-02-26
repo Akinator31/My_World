@@ -9,20 +9,6 @@
 #include "structure.h"
 #include "entity.h"
 
-void destroy_entity(entity_t *entity)
-{
-    sfSprite_destroy(entity->sprite);
-    sfClock_destroy(entity->clock);
-    free(entity);
-}
-
-void destroy_text_entity(entity_t *entity)
-{
-    sfText_destroy(entity->text);
-    sfClock_destroy(entity->clock);
-    free(entity);
-}
-
 entity_t *create_entity(sfTexture *texture, sfVector2f pos, int id,
     void (*entity_update)(entity_t *entity, scene_t *scene, engine_t *engine))
 {
@@ -35,11 +21,9 @@ entity_t *create_entity(sfTexture *texture, sfVector2f pos, int id,
     entity->entity_update = entity_update;
     entity->state = ACTIVE;
     entity->clock = sfClock_create();
-    if (texture) {
-        sfSprite_setTexture(entity->sprite, texture, sfFalse);
-        sfSprite_setTextureRect(entity->sprite,
-            sfSprite_getTextureRect(entity->sprite));
-    }
+    sfSprite_setTexture(entity->sprite, texture, sfFalse);
+    sfSprite_setTextureRect(entity->sprite,
+        sfSprite_getTextureRect(entity->sprite));
     sfSprite_setPosition(entity->sprite, pos);
     return entity;
 }
@@ -62,4 +46,18 @@ entity_t *create_text(int text, sfVector2f pos, engine_t *engine)
     sfText_setCharacterSize(entity->text, 100);
     free(text_num);
     return entity;
+}
+
+void destroy_entity(entity_t *entity)
+{
+    sfSprite_destroy(entity->sprite);
+    sfClock_destroy(entity->clock);
+    free(entity);
+}
+
+void destroy_text_entity(entity_t *entity)
+{
+    sfText_destroy(entity->text);
+    sfClock_destroy(entity->clock);
+    free(entity);
 }
