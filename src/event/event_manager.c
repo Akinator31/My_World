@@ -9,7 +9,7 @@
 #include "my_world.h"
 #include "structure.h"
 #include "utils.h"
-#include "event.h"
+#include "events.h"
 
 void manage_music_button_hover(engine_t *engine, entity_t *entity)
 {
@@ -41,8 +41,8 @@ void manage_music(engine_t *engine, entity_t *entity)
     }
 }
 
-void analyse_event(sfRenderWindow *window, sfEvent *event)
+void analyse_event(engine_t *engine)
 {
-    if (event->type == sfEvtClosed)
-        sfRenderWindow_close(window);
+    if (engine->event.type == sfEvtClosed)
+        engine->state = CLOSING;
 }

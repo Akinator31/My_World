@@ -16,34 +16,21 @@
 #include "scenes.h"
 #include "utils.h"
 
-int tty_checker(char **envp)
-{
-    for (int i = 0; envp[i] != NULL; i++) {
-        if ((envp[i][0] == 'D') && (envp[i][1] == 'I') && envp[i][2] == 'S')
-            return 1;
-    }
-    return 0;
-}
-
 engine_t *load_game(unsigned int default_framerate, char **envp)
 {
-    engine_t *engine = malloc(sizeof(engine_t));
+    engine_t *engine = calloc(1, sizeof(engine_t));
 
-    if (!tty_checker(envp)) {
-        free(engine);
+    if (!tty_checker(envp) || !engine) {
+        if (engine)
+            free(engine);
         return NULL;
     }
     engine->window = create_window(WIDTH, HEIGTH, NAME);
     engine->clock = sfClock_create();
-    engine->current_scene = NULL;
-    engine->scenes_list = NULL;
-    engine->ressources = create_ressources();
+    engine->ressources = create_ressources(engine);
     engine->scenes_list = load_scenes(engine);
-    engine->state = RUNNING;
-    engine->delta_time = 0.0;
     engine->default_fps_framerate = default_framerate;
-    engine->music_state = PLAYING;
-    engine->music_selector = MENU_MUSIC;
+    set_icon(engine);
     sfRenderWindow_setFramerateLimit(engine->window,
         default_framerate);
     return engine;
@@ -53,6 +40,8 @@ void clean_scene(linked_list_t *list)
 {
     linked_list_t *temp = list;
 
+    if (!list)
+        return;
     while (list != NULL) {
         ((scene_t *)list->data)->scene_destroy(list->data);
         list = list->next;
@@ -60,14 +49,21 @@ void clean_scene(linked_list_t *list)
     clear_list(temp);
 }
 
-int engine_destroy(engine_t *engine)
+int engine_destroy(engine_t *engine, sfThread *event_thread)
 {
-    if (engine == NULL)
+    sfThread_destroy(event_thread);
+    if (!engine)
         return 84;
     clean_scene(engine->scenes_list);
+    sfRenderWindow_close(engine->window);
     sfRenderWindow_destroy(engine->window);
     sfClock_destroy(engine->clock);
     destroy_ressources(engine->ressources);
+    if (engine->state == ERROR) {
+        free(engine->ressources);
+        free(engine);
+        return 84;
+    }
     free(engine->ressources);
     free(engine);
     return 0;

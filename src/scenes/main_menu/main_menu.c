@@ -8,10 +8,11 @@
 #include <SFML/Graphics.h>
 #include <stdlib.h>
 #include "my_world.h"
+#include "scenes.h"
 #include "structure.h"
 #include "entity.h"
 #include "my_list.h"
-#include "event.h"
+#include "events.h"
 #include "utils.h"
 #include "engine.h"
 
@@ -52,17 +53,16 @@ int update_main_page(scene_t *scene, engine_t *engine)
 
     update_button_hover_main(scene, engine);
     while (temp != NULL) {
-        if (MOUSE_PRESSED() && IS_ENTITY(4) &&
-            IS_CLICK(((entity_t *)(temp->data))->sprite))
-                engine->current_scene = get_scene_by_id(engine, 2);
-        if (MOUSE_PRESSED() && IS_ENTITY(3) &&
-            IS_CLICK(((entity_t *)(temp->data))->sprite)) {
-            sfRenderWindow_close(engine->window);
+        if (is_event_on_entity(engine, temp, 4)) {
+            sleep_while_event(engine, sfEvtMouseButtonPressed);
+            change_scene(engine, 2);
+        }
+        if (is_event_on_entity(engine, temp, 3)) {
+            engine->state = CLOSING;
             return 84;
         }
-        if (MOUSE_PRESSED() && IS_ENTITY(2) &&
-            IS_CLICK(((entity_t *)(temp->data))->sprite))
-                engine->current_scene = get_scene_by_id(engine, 3);
+        if (is_event_on_entity(engine, temp, 2))
+            change_scene(engine, 3);
         temp = temp->next;
     }
     return 0;
