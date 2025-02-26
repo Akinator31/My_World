@@ -15,6 +15,7 @@ linked_list_t *load_scenes(engine_t *engine);
 scene_t *init_main_page(engine_t *engine);
 scene_t *init_settings_page(engine_t *engine);
 scene_t *init_game_scene(engine_t *engine);
+scene_t *init_creat_map_scene(engine_t *engine);
 
 // SCENES UTILS
 void change_scene(engine_t *engine, int id);

@@ -92,6 +92,9 @@ struct engine_s {
     int default_fps_framerate;
     int music_state;
     int music_selector;
+    int **map3D;
+    sfVector2f **map2D;
+    int size_tab;
 };
 
 /*

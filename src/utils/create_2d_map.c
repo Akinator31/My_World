@@ -14,14 +14,14 @@
 #include <math.h>
 #include "utils.h"
 
-sfVector2f project_iso_point(int x, int y, float z)
+sfVector2f project_iso_point(int x, int y, float z, float size)
 {
     sfVector2f point2d;
 
     point2d.x = (cos(ANGLE_X * M_PI / 180) * x -
-        cos(ANGLE_X * M_PI / 180) * y) * TAB_SIZE + OFFSET_X;
+        cos(ANGLE_X * M_PI / 180) * y) * (TAB_SIZE / size) + OFFSET_X;
     point2d.y = (sin(ANGLE_Y * M_PI / 180) * y +
-        sin(ANGLE_Y * M_PI / 180) * x - z) * TAB_SIZE + OFFSET_Y;
+        sin(ANGLE_Y * M_PI / 180) * x - z) * (TAB_SIZE / size) + OFFSET_Y;
     return point2d;
 }
 
@@ -36,7 +36,7 @@ sfVector2f **create_2d_map(int **map3D)
     for (int i = 0; map3D[i] != NULL; i++) {
         map2D[i] = malloc(sizeof(sfVector2f) * size);
         for (int j = 0; map3D[j] != NULL; j++)
-        map2D[i][j] = project_iso_point(i, j, map3D[i][j] / 1.5);
+        map2D[i][j] = project_iso_point(i, j, map3D[i][j] / 1.5, size / 10);
     }
     return map2D;
 }

@@ -62,7 +62,7 @@ int update_main_page(scene_t *scene, engine_t *engine)
             return 84;
         }
         if (is_event_on_entity(engine, temp, 2))
-            change_scene(engine, 3);
+            change_scene(engine, 4);
         temp = temp->next;
     }
     return 0;
