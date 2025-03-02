@@ -19,5 +19,8 @@ scene_t *init_creat_map_scene(engine_t *engine);
 
 // SCENES UTILS
 void change_scene(engine_t *engine, int id);
+void change_animation(entity_t *entity,
+    void (*f)(entity_t *entity, scene_t *scene, engine_t *engine),
+    engine_t *engine);
 
 #endif
