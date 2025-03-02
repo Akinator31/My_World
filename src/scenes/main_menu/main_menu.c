@@ -28,36 +28,36 @@ void render_main_page(scene_t *scene, engine_t *engine)
     }
 }
 
-int update_button_hover_main(scene_t *scene, engine_t *engine)
+void update_button_hover_main(linked_list_t *temp, engine_t *engine)
 {
-    linked_list_t *temp = scene->entity_list;
-    entity_t *entity = NULL;
-    sfSprite *sprite = NULL;
+    entity_t *entity = (entity_t *)(temp->data);
+    sfSprite *sprite = (sfSprite *)(entity->sprite);
 
     switch_menu_music(engine);
-    while (temp != NULL) {
-        entity = (entity_t *)(temp->data);
-        sprite = (sfSprite *)(entity->sprite);
-        if (entity->id == 2)
-            set_sprite_hover(sprite, engine,
-            GET_RES("start_button_hover"), GET_RES("start_button"));
-        if (entity->id == 3)
-            set_sprite_hover(sprite, engine,
-            GET_RES("quit_button_hover"), GET_RES("quit_button"));
-        if (entity->id == 4)
-            set_sprite_hover(sprite, engine,
-            GET_RES("settings_button_hover"), GET_RES("settings_button"));
-        temp = temp->next;
+    if (entity->id == 2) {
+        set_sprite_hover(sprite, engine,
+        GET_RES("start_button_hover"), GET_RES("start_button"));
+        change_animation(entity, rotating_button, engine);
     }
-    return 1;
+    if (entity->id == 3) {
+        set_sprite_hover(sprite, engine,
+        GET_RES("quit_button_hover"), GET_RES("quit_button"));
+        change_animation(entity, rotating_button, engine);
+    }
+    if (entity->id == 4) {
+        set_sprite_hover(sprite, engine,
+        GET_RES("settings_button_hover"), GET_RES("settings_button"));
+        change_animation(entity, rotating_button, engine);
+    }
+    temp = temp->next;
 }
 
 int update_main_page(scene_t *scene, engine_t *engine)
 {
     linked_list_t *temp = scene->entity_list;
 
-    update_button_hover_main(scene, engine);
     while (temp != NULL) {
+        update_button_hover_main(temp, engine);
         entity_update_from_node(temp, scene, engine);
         if (is_event_on_entity(engine, temp, 4)) {
             sleep_while_event(engine, sfEvtMouseButtonPressed);

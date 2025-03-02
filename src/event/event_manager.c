@@ -10,6 +10,8 @@
 #include "structure.h"
 #include "utils.h"
 #include "events.h"
+#include "scenes.h"
+#include "animations.h"
 
 void manage_music_button_hover(engine_t *engine, entity_t *entity)
 {
@@ -24,6 +26,7 @@ void manage_music_button_hover(engine_t *engine, entity_t *entity)
 void manage_music(engine_t *engine, entity_t *entity)
 {
     manage_music_button_hover(engine, entity);
+    change_animation(entity, rotating_button, engine);
     if (engine->event.type != sfEvtMouseButtonPressed)
         return;
     if (!is_mouse_on_sprite(engine, entity->sprite))

@@ -27,49 +27,46 @@ static void render_settings_page(scene_t *scene, engine_t *engine)
     }
 }
 
-int update_button_hover_settings(scene_t *scene, engine_t *engine)
+void update_button_hover_settings(linked_list_t *temp, engine_t *engine)
 {
-    linked_list_t *temp = scene->entity_list;
-
-    while (temp != NULL) {
-        if (is_entity_from_node(temp, 3))
-            set_sprite_hover(GET_SPRITE(), engine,
-                GET_RES("back_hover"), GET_RES("back"));
-        if (is_entity_from_node(temp, 4))
-            set_sprite_hover(GET_SPRITE(), engine,
-                GET_RES("900_hover"), GET_RES("900"));
-        if (is_entity_from_node(temp, 5))
-            set_sprite_hover(GET_SPRITE(), engine,
-                GET_RES("1920_hover"), GET_RES("1920"));
-        if (is_entity_from_node(temp, 6))
-            set_sprite_hover(GET_SPRITE(), engine,
-                GET_RES("4k_hover"), GET_RES("4k"));
-        temp = temp->next;
+    if (is_entity_from_node(temp, 3)) {
+        set_sprite_hover(GET_SPRITE(), engine,
+            GET_RES("back_hover"), GET_RES("back"));
+        change_animation((entity_t *)(temp->data), rotating_button, engine);
     }
-    return 1;
+    if (is_entity_from_node(temp, 4)) {
+        set_sprite_hover(GET_SPRITE(), engine,
+            GET_RES("900_hover"), GET_RES("900"));
+        change_animation((entity_t *)(temp->data), rotating_button, engine);
+    }
+    if (is_entity_from_node(temp, 5)) {
+        set_sprite_hover(GET_SPRITE(), engine,
+            GET_RES("1920_hover"), GET_RES("1920"));
+        change_animation((entity_t *)(temp->data), rotating_button, engine);
+    }
+    if (is_entity_from_node(temp, 6)) {
+        set_sprite_hover(GET_SPRITE(), engine,
+            GET_RES("4k_hover"), GET_RES("4k"));
+        change_animation((entity_t *)(temp->data), rotating_button, engine);
+    }
 }
 
-void update_resolution_game(scene_t *scene, engine_t *engine)
+void update_resolution_game(linked_list_t *temp, engine_t *engine)
 {
-    linked_list_t *temp = scene->entity_list;
-
-    while (temp != NULL) {
-        if (is_event_on_entity(engine, temp, 4) &&
-            !check_screen_size(engine, SF_VECTOR_2U(900, 600))) {
-            sfRenderWindow_setPosition(engine->window, SF_VECTOR_2I(0, 0));
-            sfRenderWindow_setSize(engine->window, SF_VECTOR_2U(900, 600));
-        }
-        if (is_event_on_entity(engine, temp, 5) &&
-            !check_screen_size(engine, SF_VECTOR_2U(1920, 1080))) {
-            sfRenderWindow_setPosition(engine->window, SF_VECTOR_2I(0, 0));
-            sfRenderWindow_setSize(engine->window, SF_VECTOR_2U(1920, 1080));
-        }
-        if (is_event_on_entity(engine, temp, 6) &&
-            !check_screen_size(engine, SF_VECTOR_2U(3840, 2160))) {
-            sfRenderWindow_setPosition(engine->window, SF_VECTOR_2I(0, 0));
-            sfRenderWindow_setSize(engine->window, SF_VECTOR_2U(3840, 2160));
-        }
-        temp = temp->next;
+    if (is_event_on_entity(engine, temp, 4) &&
+        !check_screen_size(engine, SF_VECTOR_2U(900, 600))) {
+        sfRenderWindow_setPosition(engine->window, SF_VECTOR_2I(0, 0));
+        sfRenderWindow_setSize(engine->window, SF_VECTOR_2U(900, 600));
+    }
+    if (is_event_on_entity(engine, temp, 5) &&
+        !check_screen_size(engine, SF_VECTOR_2U(1920, 1080))) {
+        sfRenderWindow_setPosition(engine->window, SF_VECTOR_2I(0, 0));
+        sfRenderWindow_setSize(engine->window, SF_VECTOR_2U(1920, 1080));
+    }
+    if (is_event_on_entity(engine, temp, 6) &&
+        !check_screen_size(engine, SF_VECTOR_2U(3840, 2160))) {
+        sfRenderWindow_setPosition(engine->window, SF_VECTOR_2I(0, 0));
+        sfRenderWindow_setSize(engine->window, SF_VECTOR_2U(3840, 2160));
     }
 }
 
@@ -77,9 +74,9 @@ int update_settings_page(scene_t *scene, engine_t *engine)
 {
     linked_list_t *temp = scene->entity_list;
 
-    update_button_hover_settings(scene, engine);
-    update_resolution_game(scene, engine);
     while (temp != NULL) {
+        update_button_hover_settings(temp, engine);
+        update_resolution_game(temp, engine);
         entity_update_from_node(temp, scene, engine);
         if (is_event_on_entity(engine, temp, 3)) {
             sleep_while_event(engine, sfEvtMouseButtonPressed);
