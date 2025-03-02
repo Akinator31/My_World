@@ -14,6 +14,7 @@
 #include "my_list.h"
 #include "events.h"
 #include "utils.h"
+#include "animations.h"
 
 static void render_settings_page(scene_t *scene, engine_t *engine)
 {
@@ -79,6 +80,7 @@ int update_settings_page(scene_t *scene, engine_t *engine)
     update_button_hover_settings(scene, engine);
     update_resolution_game(scene, engine);
     while (temp != NULL) {
+        entity_update_from_node(temp, scene, engine);
         if (is_event_on_entity(engine, temp, 3)) {
             sleep_while_event(engine, sfEvtMouseButtonPressed);
             change_scene(engine, 1);
@@ -109,14 +111,14 @@ scene_t *init_settings_page(engine_t *engine)
     scene_t *main_scene = malloc(sizeof(scene_t));
 
     entity_list = push_front_list_all(entity_list, 6,
-        create_entity(GET_RES("4k"), POS(285, 900), 6, NULL),
-        create_entity(GET_RES("1920"), POS(475, 700), 5, NULL),
-        create_entity(GET_RES("900"), POS(100, 700), 4, NULL),
-        create_entity(GET_RES("back"), POS(1736, 30), 3, NULL),
+        create_entity(GET_RES("4k"), POS(435, 975), 6, bouncing_button),
+        create_entity(GET_RES("1920"), POS(625, 775), 5, bouncing_button),
+        create_entity(GET_RES("900"), POS(250, 775), 4, bouncing_button),
+        create_entity(GET_RES("back"), POS(1813, 105), 3, bouncing_button),
         create_entity(GET_RES("sound_on"),
-            POS(355, 500), 2, NULL),
+            POS(430, 577), 2, bouncing_button),
         create_entity(GET_RES("settings_bg"),
-            POS(0, 0), 1, NULL));
+            POS(960, 540), 1, NULL));
     main_scene->id = 2;
     main_scene->entity_list = entity_list;
     main_scene->scene_render = &render_settings_page;

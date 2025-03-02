@@ -18,6 +18,7 @@
 #include "utils.h"
 #include "engine.h"
 #include "scenes.h"
+#include "animations.h"
 
 void render_game_scene(scene_t *scene, engine_t *engine)
 {
@@ -38,14 +39,16 @@ int update_game_scene(scene_t *scene, engine_t *engine)
     draw_2d_map(engine);
     switch_game_music(engine);
     while (temp != NULL) {
+        entity_update_from_node(temp, scene, engine);
         if (((entity_t *)(temp->data))->id == 2) {
             set_sprite_hover(((entity_t *)(temp->data))->sprite, engine,
-            GET_RES("quit_button_hover"),
-            GET_RES("quit_button"));
+            GET_RES("back_hover"),
+            GET_RES("back"));
         }
-        if (MOUSE_PRESSED() && IS_ENTITY(2) &&
-            IS_CLICK(((entity_t *)(temp->data))->sprite))
-                engine->current_scene = get_scene_by_id(engine, 1);
+        if (is_event_on_entity(engine, temp, 2)) {
+            sleep_while_event(engine, sfEvtMouseButtonPressed);
+            change_scene(engine, 4);
+        }
         temp = temp->next;
     }
     return 1;
@@ -72,8 +75,8 @@ scene_t *init_game_scene(engine_t *engine)
     srand(time(NULL));
     sfMusic_setLoop(GET_RES("game_music"), sfTrue);
     entity_list = push_front_list_all(entity_list, 2,
-        create_entity(GET_RES("quit_button"), POS(30, 30), 2, NULL),
-        create_entity(GET_RES("game_bg"), POS(0, 0), 1, NULL));
+        create_entity(GET_RES("back"), POS(1813, 105), 2, bouncing_button),
+        create_entity(GET_RES("game_bg"), POS(960, 540), 1, NULL));
     game_scene->id = 3;
     game_scene->clock = sfClock_create();
     game_scene->entity_list = entity_list;
