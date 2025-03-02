@@ -33,6 +33,7 @@
     #define CHANGE_RES(i, s) MOUSE_PRESSED() && IS_ENTITY(4) && IS_CLICK(s)
     #define SF_VECTOR_2U(x, y) ((sfVector2u){(x), (y)})
     #define SF_VECTOR_2I(x, y) ((sfVector2i){(x), (y)})
+    #define UNUSED __attribute__((unused))
 
 typedef struct engine_s engine_t;
 typedef struct scene_s scene_t;
@@ -87,6 +88,7 @@ struct engine_s {
     linked_list_t *scenes_list;
     ressource_manager_t *ressources;
     sfEvent event;
+    sfThread *event_thread;
     int state;
     float delta_time;
     int default_fps_framerate;
@@ -125,10 +127,12 @@ struct entity_s {
     int id;
     int state;
     int is_text;
+    int scale_direction;
     sfSprite *sprite;
     sfVector2f pos;
     sfText *text;
     sfClock *clock;
+    sfVector2f original_scale;
     void (*entity_init)(entity_t *entity, scene_t *scene, engine_t *engine);
     void (*entity_update)(entity_t *entity, scene_t *scene, engine_t *engine);
     void (*entity_render)(entity_t *entity, engine_t *engine);
