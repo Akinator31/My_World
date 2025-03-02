@@ -28,15 +28,15 @@ void manage_music(engine_t *engine, entity_t *entity)
         return;
     if (!is_mouse_on_sprite(engine, entity->sprite))
         return;
-    if (sfTime_asSeconds(sfClock_getElapsedTime(engine->clock)) < 0.2)
+    if (sfTime_asSeconds(sfClock_getElapsedTime(entity->clock)) < 0.2)
         return;
     if (engine->music_state == PLAYING) {
         sfMusic_pause(GET_RES("menu_music"));
-        sfClock_restart(engine->clock);
+        sfClock_restart(entity->clock);
         engine->music_state = STOPPED;
     } else {
         sfMusic_play(GET_RES("menu_music"));
-        sfClock_restart(engine->clock);
+        sfClock_restart(entity->clock);
         engine->music_state = PLAYING;
     }
 }
@@ -44,5 +44,8 @@ void manage_music(engine_t *engine, entity_t *entity)
 void analyse_event(engine_t *engine)
 {
     if (engine->event.type == sfEvtClosed)
+        engine->state = CLOSING;
+    if (engine->event.type == sfEvtKeyPressed &&
+        sfKeyboard_isKeyPressed(sfKeyQ))
         engine->state = CLOSING;
 }
