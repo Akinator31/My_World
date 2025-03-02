@@ -13,3 +13,11 @@ int is_entity_from_node(linked_list_t *entity_node, int id)
 
     return entity->id == id ? 1 : 0;
 }
+
+void entity_update_from_node(linked_list_t *entity_node,
+    scene_t *scene, engine_t *engine)
+{
+    if (((entity_t *)(entity_node->data))->entity_update)
+        ((entity_t *)(entity_node->data))->entity_update(
+        ((entity_t *)(entity_node->data)), scene, engine);
+}
