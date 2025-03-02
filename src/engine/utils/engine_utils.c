@@ -7,6 +7,7 @@
 
 #include "engine.h"
 #include "structure.h"
+#include "events.h"
 
 int tty_checker(char **envp)
 {
@@ -38,9 +39,23 @@ void load_current_scene(engine_t *engine)
 {
     linked_list_t *temp = engine->scenes_list;
 
+    engine->delta_time = sfTime_asSeconds(sfClock_restart(engine->clock));
     while (temp != NULL) {
         if (((scene_t *)(temp->data))->id == engine->current_scene->id)
             ((scene_t *)(temp->data))->scene_render(temp->data, engine);
         temp = temp->next;
     }
+}
+
+static void launch_thread(engine_t *engine)
+{
+    sfThread_launch(engine->event_thread);
+}
+
+void init_thread(engine_t *engine)
+{
+    engine->event_thread = sfThread_create(fetch_event, engine);
+    if (!engine->event_thread)
+        engine->state = ERROR;
+    launch_thread(engine);
 }
