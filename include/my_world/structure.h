@@ -33,6 +33,7 @@
     #define CHANGE_RES(i, s) MOUSE_PRESSED() && IS_ENTITY(4) && IS_CLICK(s)
     #define SF_VECTOR_2U(x, y) ((sfVector2u){(x), (y)})
     #define SF_VECTOR_2I(x, y) ((sfVector2i){(x), (y)})
+    #define UNUSED __attribute__((unused))
 
 typedef struct engine_s engine_t;
 typedef struct scene_s scene_t;
@@ -82,16 +83,20 @@ enum music_state {
 */
 
 struct engine_s {
-    sfRenderWindow *window;
+    sfEvent event;
     sfClock *clock;
+    sfThread *event_thread;
+    sfRenderWindow *window;
     scene_t *current_scene;
     linked_list_t *scenes_list;
     ressource_manager_t *ressources;
-    sfEvent event;
-    map_t *map;
     int state;
+    map_t *map;
+    int music_state;
     float delta_time;
+    int music_selector;
     int default_fps_framerate;
+    int is_strange_mode;
     int music_state;
     int music_selector;
     int mouse_status;
@@ -125,13 +130,13 @@ struct entity_s {
     int id;
     int state;
     int is_text;
+    int scale_direction;
     sfSprite *sprite;
     sfVector2f pos;
     sfText *text;
     sfClock *clock;
-    void (*entity_init)(entity_t *entity, scene_t *scene, engine_t *engine);
+    sfVector2f original_scale;
     void (*entity_update)(entity_t *entity, scene_t *scene, engine_t *engine);
-    void (*entity_render)(entity_t *entity, engine_t *engine);
     void (*entity_destroy)(entity_t *entity);
 };
 

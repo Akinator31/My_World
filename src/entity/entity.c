@@ -13,6 +13,7 @@ entity_t *create_entity(sfTexture *texture, sfVector2f pos, int id,
     void (*entity_update)(entity_t *entity, scene_t *scene, engine_t *engine))
 {
     entity_t *entity = malloc(sizeof(entity_t));
+    sfIntRect sprite_rect;
 
     entity->sprite = sfSprite_create();
     entity->pos = pos;
@@ -20,11 +21,14 @@ entity_t *create_entity(sfTexture *texture, sfVector2f pos, int id,
     entity->entity_destroy = &destroy_entity;
     entity->entity_update = entity_update;
     entity->state = ACTIVE;
+    entity->scale_direction = 0;
     entity->clock = sfClock_create();
     sfSprite_setTexture(entity->sprite, texture, sfFalse);
-    sfSprite_setTextureRect(entity->sprite,
-        sfSprite_getTextureRect(entity->sprite));
+    sprite_rect = sfSprite_getTextureRect(entity->sprite);
+    sfSprite_setOrigin(entity->sprite, (sfVector2f){sprite_rect.width / 2,
+        sprite_rect.height / 2});
     sfSprite_setPosition(entity->sprite, pos);
+    entity->original_scale = sfSprite_getScale(entity->sprite);
     return entity;
 }
 

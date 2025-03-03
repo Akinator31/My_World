@@ -15,6 +15,7 @@
 #include "hashtable.h"
 #include "scenes.h"
 #include "utils.h"
+#include "events.h"
 
 engine_t *load_game(unsigned int default_framerate, char **envp)
 {
@@ -32,6 +33,8 @@ engine_t *load_game(unsigned int default_framerate, char **envp)
     engine->default_fps_framerate = default_framerate;
     engine->map = NULL;
     engine->mouse_status = 1;
+    engine->is_strange_mode = false;
+    init_thread(engine);
     set_icon(engine);
     sfRenderWindow_setFramerateLimit(engine->window,
         default_framerate);
@@ -53,6 +56,7 @@ void clean_scene(linked_list_t *list)
 
 int engine_destroy(engine_t *engine, sfThread *event_thread)
 {
+    sfThread_wait(engine->event_thread);
     sfThread_destroy(event_thread);
     if (!engine)
         return 84;

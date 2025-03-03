@@ -10,6 +10,8 @@
 #include "structure.h"
 #include "utils.h"
 #include "events.h"
+#include "scenes.h"
+#include "animations.h"
 
 void manage_music_button_hover(engine_t *engine, entity_t *entity)
 {
@@ -24,20 +26,32 @@ void manage_music_button_hover(engine_t *engine, entity_t *entity)
 void manage_music(engine_t *engine, entity_t *entity)
 {
     manage_music_button_hover(engine, entity);
+    change_animation(entity, rotating_button, engine);
     if (engine->event.type != sfEvtMouseButtonPressed)
         return;
     if (!is_mouse_on_sprite(engine, entity->sprite))
         return;
-    if (sfTime_asSeconds(sfClock_getElapsedTime(engine->clock)) < 0.2)
+    if (sfTime_asSeconds(sfClock_getElapsedTime(entity->clock)) < 0.2)
         return;
     if (engine->music_state == PLAYING) {
         sfMusic_pause(GET_RES("menu_music"));
-        sfClock_restart(engine->clock);
+        sfClock_restart(entity->clock);
         engine->music_state = STOPPED;
     } else {
         sfMusic_play(GET_RES("menu_music"));
-        sfClock_restart(engine->clock);
+        sfClock_restart(entity->clock);
         engine->music_state = PLAYING;
+    }
+}
+
+static void strange_mode(engine_t *engine)
+{
+    if (engine->event.type == sfEvtKeyPressed &&
+        sfKeyboard_isKeyPressed(sfKeyP)) {
+            if (engine->is_strange_mode)
+            engine->is_strange_mode = false;
+        else
+            engine->is_strange_mode = true;
     }
 }
 
@@ -47,4 +61,8 @@ void analyse_event(engine_t *engine)
         engine->state = CLOSING;
     if (engine->event.type == sfEvtKeyPressed)
         move_map_input(engine);
+    if (engine->event.type == sfEvtKeyPressed &&
+        sfKeyboard_isKeyPressed(sfKeyQ))
+        engine->state = CLOSING;
+    strange_mode(engine);
 }

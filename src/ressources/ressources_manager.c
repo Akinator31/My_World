@@ -14,6 +14,8 @@
 
 static const assets_t assets[] = {
     {"background", "assets/images/main_menu/bg.png", TEXTURE},
+    {"create_map_bg", "assets/images/creat_map_menu/create_map_bg.png",
+        TEXTURE},
     {"start_button", "assets/images/main_menu/buttons/start_button.png",
         TEXTURE},
     {"start_button_hover", "assets/images/main_menu/buttons/hover/"
@@ -59,18 +61,23 @@ static const assets_t assets[] = {
     {"game_music", "assets/sounds/game-music.ogg", MUSIC},
     {"BungeeSpice_Regular", "assets/fonts/BungeeSpice-Regular.ttf", FONT},
     {"icon", "assets/images/icon.png", IMAGE},
-    {"button_10", "assets/images/creat_map_menu/buttons/10.png", IMAGE},
-    {"button_10_hover", "assets/images/creat_map_menu/"
-        "buttons/hover/10_hover.png", IMAGE},
-    {"button_50", "assets/images/creat_map_menu/buttons/50.png", IMAGE},
-    {"button_50_hover", "assets/images/creat_map_menu/"
-        "buttons/hover/50_hover.png", IMAGE},
-    {"button_100", "assets/images/creat_map_menu/buttons/100.png", IMAGE},
-    {"button_100_hover", "assets/images/creat_map_menu/"
-        "buttons/hover/100_hover.png", IMAGE},
-    {"button_load", "assets/images/creat_map_menu/buttons/load.png", IMAGE},
-    {"button_load_hover", "assets/images/creat_map_menu/"
-        "buttons/hover/load_hover.png", IMAGE},
+    {"10x10", "assets/images/creat_map_menu/buttons/10x10.png", TEXTURE},
+    {"10x10_hover", "assets/images/creat_map_menu/"
+        "buttons/hover/10x10_hover.png", TEXTURE},
+    {"50x50", "assets/images/creat_map_menu/buttons/50x50.png", TEXTURE},
+    {"50x50_hover", "assets/images/creat_map_menu/"
+        "buttons/hover/50x50_hover.png", TEXTURE},
+    {"100x100", "assets/images/creat_map_menu/buttons/100x100.png", TEXTURE},
+    {"100x100_hover", "assets/images/creat_map_menu/"
+        "buttons/hover/100x100_hover.png", TEXTURE},
+    {"custom", "assets/images/creat_map_menu/buttons/custom.png", TEXTURE},
+    {"custom_hover", "assets/images/creat_map_menu/"
+        "buttons/hover/custom_hover.png", TEXTURE},
+    {"load", "assets/images/creat_map_menu/buttons/load_button.png", TEXTURE},
+    {"load_hover", "assets/images/creat_map_menu/buttons/hover/"
+        "load_button_hover.png", TEXTURE},
+    {"pen", "assets/images/game_scene/buttons/pen_button.png", TEXTURE},
+    {"pen_hover", "assets/images/game_scene/buttons/hover/pen_button_hover.png", TEXTURE},
     {NULL, NULL, 0},
 };
 

@@ -12,11 +12,15 @@
     #include "structure.h"
     #include "ressources.h"
 
+// ENGINE INITIALIZATION
 engine_t *load_game(unsigned int default_framerate, char **envp);
 int engine_destroy(engine_t *engine, sfThread *event_thread);
 void load_current_scene(engine_t *engine);
+
+// ENGINE UTILS
 int check_state(engine_t *engine);
 int tty_checker(char **envp);
 void set_icon(engine_t *engine);
+void init_thread(engine_t *engine);
 
 #endif
