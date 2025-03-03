@@ -74,9 +74,8 @@ void key_pressed_on_map(engine_t *engine)
     if (sfKeyboard_isKeyPressed(sfKeyS))
         map->map3D[x][y]--;
     if (sfKeyboard_isKeyPressed(sfKeyF))
-        map->map3D[x][y] = flatten_map(map, x, y); 
+        map->map3D[x][y] = flatten_map(map, x, y);
     map->map2D[x][y] = project_iso_point(x, y, map);
-
 }
 
 void cmp_position(engine_t *engine)
@@ -94,20 +93,22 @@ void cmp_position(engine_t *engine)
         if (engine->mouse_status == 1)
             map->map3D[x][y]--;
         if (engine->mouse_status == 2)
-            map->map3D[x][y] = flatten_map(map, x, y); 
+            map->map3D[x][y] = flatten_map(map, x, y);
         map->map2D[x][y] = project_iso_point(x, y, map);
     }
     return;
 }
 
-void move_map_input(engine_t *engine)
+static void zoom_in(map_t *map)
 {
-    map_t *map = engine->map;
-
     if (sfKeyboard_isKeyPressed(sfKeyP))
         map->zoom++;
     if (sfKeyboard_isKeyPressed(sfKeyM))
         map->zoom--;
+}
+
+static void change_angle(map_t *map)
+{
     if (sfKeyboard_isKeyPressed(sfKeyA)) {
         map->angle_x++;
         map->angle_y++;
@@ -116,13 +117,21 @@ void move_map_input(engine_t *engine)
         map->angle_x--;
         map->angle_y--;
     }
+}
+
+void move_map_input(engine_t *engine)
+{
+    map_t *map = engine->map;
+
+    zoom_in(map);
+    change_angle(map);
     if (sfKeyboard_isKeyPressed(sfKeyI))
-        map->offset_y += 10;
-    if (sfKeyboard_isKeyPressed(sfKeyK))
         map->offset_y -= 10;
+    if (sfKeyboard_isKeyPressed(sfKeyK))
+        map->offset_y += 10;
     if (sfKeyboard_isKeyPressed(sfKeyJ))
-        map->offset_x += 10;
-    if (sfKeyboard_isKeyPressed(sfKeyL))
         map->offset_x -= 10;
+    if (sfKeyboard_isKeyPressed(sfKeyL))
+        map->offset_x += 10;
     map->map2D = change_2d_map(map);
 }
