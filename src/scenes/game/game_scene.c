@@ -32,6 +32,20 @@ void render_game_scene(scene_t *scene, engine_t *engine)
     }
 }
 
+void update_button_game(linked_list_t *temp, engine_t *engine)
+{
+    entity_t *entity = (entity_t *)(temp->data);
+    sfSprite *sprite = (sfSprite *)(entity->sprite);
+
+    if (entity->id == 2)
+        set_sprite_hover(sprite, engine,
+        GET_RES("back_hover"), GET_RES("back"));
+    if (entity->id == 3)
+        set_sprite_hover(sprite, engine,
+        GET_RES("pen_hover"), GET_RES("pen"));
+    temp = temp->next;
+}
+
 int update_game_scene(scene_t *scene, engine_t *engine)
 {
     linked_list_t *temp = scene->entity_list;
@@ -40,11 +54,7 @@ int update_game_scene(scene_t *scene, engine_t *engine)
     switch_game_music(engine);
     while (temp != NULL) {
         entity_update_from_node(temp, scene, engine);
-        if (((entity_t *)(temp->data))->id == 2) {
-            set_sprite_hover(((entity_t *)(temp->data))->sprite, engine,
-            GET_RES("back_hover"),
-            GET_RES("back"));
-        }
+        update_button_game(temp, engine);
         if (is_event_on_entity(engine, temp, 2)) {
             sleep_while_event(engine, sfEvtMouseButtonPressed);
             change_scene(engine, 4);
@@ -71,7 +81,8 @@ static linked_list_t *create_entity_list_game_scene(engine_t *engine)
 {
     linked_list_t *entity_list = new_list();
 
-    entity_list = push_front_list_all(entity_list, 2,
+    entity_list = push_front_list_all(entity_list, 3,
+        create_entity(GET_RES("pen"), POS(107, 105), 3, button_anim),
         create_entity(GET_RES("back"), POS(1813, 105), 2, button_anim),
         create_entity(GET_RES("game_bg"), POS(960, 540), 1, NULL));
     return entity_list;
@@ -79,14 +90,10 @@ static linked_list_t *create_entity_list_game_scene(engine_t *engine)
 
 scene_t *init_game_scene(engine_t *engine)
 {
-    linked_list_t *entity_list = new_list();
     scene_t *game_scene = malloc(sizeof(scene_t));
 
     srand(time(NULL));
     sfMusic_setLoop(GET_RES("game_music"), sfTrue);
-    entity_list = push_front_list_all(entity_list, 2,
-        create_entity(GET_RES("back"), POS(1813, 105), 2, button_anim),
-        create_entity(GET_RES("game_bg"), POS(960, 540), 1, NULL));
     game_scene->id = 3;
     game_scene->clock = sfClock_create();
     game_scene->entity_list = create_entity_list_game_scene(engine);
