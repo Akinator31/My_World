@@ -39,6 +39,7 @@ typedef struct scene_s scene_t;
 typedef struct entity_s entity_t;
 typedef struct ressource_manager_s ressource_manager_t;
 typedef struct assets_s assets_t;
+typedef struct map_s map_t;
 typedef enum assets_type_s assets_type_t;
 
 enum assets_type_s {
@@ -87,14 +88,13 @@ struct engine_s {
     linked_list_t *scenes_list;
     ressource_manager_t *ressources;
     sfEvent event;
+    map_t *map;
     int state;
     float delta_time;
     int default_fps_framerate;
     int music_state;
     int music_selector;
-    int **map3D;
-    sfVector2f **map2D;
-    int size_tab;
+    int mouse_status;
 };
 
 /*
@@ -133,6 +133,25 @@ struct entity_s {
     void (*entity_update)(entity_t *entity, scene_t *scene, engine_t *engine);
     void (*entity_render)(entity_t *entity, engine_t *engine);
     void (*entity_destroy)(entity_t *entity);
+};
+
+/*
+** MAP:
+**
+** The map structure will store all information about the map
+**  when the game is running
+*/
+
+struct map_s {
+    int **map3D;
+    sfVector2f **map2D;
+    int size_tab;
+    float zoom;
+    int angle;
+    int angle_x;
+    int angle_y;
+    int offset_x;
+    int offset_y;
 };
 
 /*

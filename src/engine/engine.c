@@ -30,6 +30,8 @@ engine_t *load_game(unsigned int default_framerate, char **envp)
     engine->ressources = create_ressources(engine);
     engine->scenes_list = load_scenes(engine);
     engine->default_fps_framerate = default_framerate;
+    engine->map = NULL;
+    engine->mouse_status = 1;
     set_icon(engine);
     sfRenderWindow_setFramerateLimit(engine->window,
         default_framerate);

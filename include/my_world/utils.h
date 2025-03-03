@@ -14,6 +14,7 @@
     #define TAB_SIZE 100
     #define OFFSET_X 960
     #define OFFSET_Y 50
+    #define HITBOX_RANGE 15
 
 sfRenderWindow *create_window(unsigned int width,
     unsigned int heigth, char *window_title);
@@ -30,8 +31,14 @@ int help(int ac, char **av);
 sfVector2f get_random_pos(engine_t *engine);
 int check_screen_size(engine_t *engine, sfVector2u request_size);
 int **create_array_int(int size);
-sfVector2f **create_2d_map(int **map3D);
+sfVector2f **create_2d_map(map_t *map);
 int draw_2d_map(engine_t *engine);
 void multi_array_vector(sfVector2f **array, float multi);
-
+void get_input_on_map(engine_t *engine);
+sfVector2f project_iso_point(int x, int y, map_t *map);
+map_t *free_map(map_t *map);
+sfVector2f **change_2d_map(map_t *map);
+void move_map_input(engine_t *engine);
+void cmp_position(engine_t *engine);
+void key_pressed_on_map(engine_t *engine);
 #endif

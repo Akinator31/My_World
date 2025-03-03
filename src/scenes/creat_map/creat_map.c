@@ -5,6 +5,13 @@
 ** creat_map
 */
 
+/*
+** EPITECH PROJECT, 2025
+** G-ING-200-TLS-2-1-myworld-pavel.de-wavrechin
+** File description:
+** creat_map
+*/
+
 #include <SFML/Graphics.h>
 #include <stdlib.h>
 #include <time.h>
@@ -56,11 +63,20 @@ void update_button_hover_creat_map_scene(scene_t *scene, engine_t *engine)
 
 void set_map_size(int entity, int size, engine_t *engine, linked_list_t *temp)
 {
+    map_t *map = NULL;
+
+    map = malloc(sizeof(map_t));
     if (MOUSE_PRESSED() && IS_ENTITY(entity) &&
         IS_CLICK(((entity_t *)(temp->data))->sprite)) {
-        engine->map3D = create_array_int(size);
-        engine->map2D = create_2d_map(engine->map3D);
-        engine->size_tab = size;
+        map->map3D = create_array_int(size);
+        map->zoom = 1000.0 / size;
+        map->size_tab = size;
+        map->angle_x = ANGLE_X;
+        map->angle_y = ANGLE_Y;
+        map->offset_x = OFFSET_X;
+        map->angle_y = OFFSET_Y;
+        map->map2D = create_2d_map(map);
+        engine->map = map;
         engine->current_scene = get_scene_by_id(engine, 3);
     }
 }
