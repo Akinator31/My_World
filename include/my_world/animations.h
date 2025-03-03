@@ -10,8 +10,10 @@
     #include "entity.h"
 
 void bouncing_button(entity_t *entity, UNUSED scene_t *scene,
-    UNUSED engine_t *engine);
+    engine_t *engine);
 void rotating_button(entity_t *entity, UNUSED scene_t *scene,
-    UNUSED engine_t *engine);
+    engine_t *engine);
+void button_anim(entity_t *entity, scene_t *scene,
+    engine_t *engine);
 
 #endif
