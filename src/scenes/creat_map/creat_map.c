@@ -75,7 +75,7 @@ void set_map_size(int entity, int size, engine_t *engine, linked_list_t *temp)
         map->angle_x = ANGLE_X;
         map->angle_y = ANGLE_Y;
         map->offset_x = OFFSET_X;
-        map->angle_y = OFFSET_Y;
+        map->offset_y = OFFSET_Y;
         map->map2D = create_2d_map(map);
         engine->map = map;
         engine->current_scene = get_scene_by_id(engine, 3);
