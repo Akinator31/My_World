@@ -57,8 +57,8 @@ void update_button_hover_creat_map_scene(linked_list_t *temp,
 
 void set_map_size(int entity, int size, engine_t *engine, linked_list_t *temp)
 {
-    if (MOUSE_PRESSED() && IS_ENTITY(entity) &&
-        IS_CLICK(((entity_t *)(temp->data))->sprite)) {
+    if (is_event_on_entity(engine, temp, entity)) {
+        sleep_while_event(engine, sfEvtMouseButtonPressed);
         engine->map3D = create_array_int(size);
         engine->map2D = create_2d_map(engine->map3D);
         engine->size_tab = size;
