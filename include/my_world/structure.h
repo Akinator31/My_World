@@ -82,21 +82,21 @@ enum music_state {
 */
 
 struct engine_s {
-    sfRenderWindow *window;
+    sfEvent event;
     sfClock *clock;
+    sfVector2f **map2D;
+    sfThread *event_thread;
+    sfRenderWindow *window;
     scene_t *current_scene;
     linked_list_t *scenes_list;
     ressource_manager_t *ressources;
-    sfEvent event;
-    sfThread *event_thread;
     int state;
-    float delta_time;
-    int default_fps_framerate;
-    int music_state;
-    int music_selector;
     int **map3D;
-    sfVector2f **map2D;
     int size_tab;
+    int music_state;
+    float delta_time;
+    int music_selector;
+    int default_fps_framerate;
 };
 
 /*
@@ -133,9 +133,7 @@ struct entity_s {
     sfText *text;
     sfClock *clock;
     sfVector2f original_scale;
-    void (*entity_init)(entity_t *entity, scene_t *scene, engine_t *engine);
     void (*entity_update)(entity_t *entity, scene_t *scene, engine_t *engine);
-    void (*entity_render)(entity_t *entity, engine_t *engine);
     void (*entity_destroy)(entity_t *entity);
 };
 

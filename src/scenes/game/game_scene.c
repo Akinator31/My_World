@@ -67,6 +67,16 @@ static void destroy_game_scene(scene_t *scene)
     free(scene);
 }
 
+static linked_list_t *create_entity_list_game_scene(engine_t *engine)
+{
+    linked_list_t *entity_list = new_list();
+
+    entity_list = push_front_list_all(entity_list, 2,
+        create_entity(GET_RES("back"), POS(1813, 105), 2, button_anim),
+        create_entity(GET_RES("game_bg"), POS(960, 540), 1, NULL));
+    return entity_list;
+}
+
 scene_t *init_game_scene(engine_t *engine)
 {
     linked_list_t *entity_list = new_list();
@@ -75,11 +85,11 @@ scene_t *init_game_scene(engine_t *engine)
     srand(time(NULL));
     sfMusic_setLoop(GET_RES("game_music"), sfTrue);
     entity_list = push_front_list_all(entity_list, 2,
-        create_entity(GET_RES("back"), POS(1813, 105), 2, bouncing_button),
+        create_entity(GET_RES("back"), POS(1813, 105), 2, button_anim),
         create_entity(GET_RES("game_bg"), POS(960, 540), 1, NULL));
     game_scene->id = 3;
     game_scene->clock = sfClock_create();
-    game_scene->entity_list = entity_list;
+    game_scene->entity_list = create_entity_list_game_scene(engine);
     game_scene->scene_render = &render_game_scene;
     game_scene->scene_update = &update_game_scene;
     game_scene->scene_destroy = &destroy_game_scene;

@@ -19,7 +19,7 @@ void rotate_unrotate_scale(float rotation,
 }
 
 void rotating_button(entity_t *entity, UNUSED scene_t *scene,
-    UNUSED engine_t *engine)
+    engine_t *engine)
 {
     static int rotating_direction = 0;
     float rotation = sfSprite_getRotation(entity->sprite);

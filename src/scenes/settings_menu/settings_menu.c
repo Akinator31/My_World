@@ -29,26 +29,18 @@ static void render_settings_page(scene_t *scene, engine_t *engine)
 
 void update_button_hover_settings(linked_list_t *temp, engine_t *engine)
 {
-    if (is_entity_from_node(temp, 3)) {
+    if (is_entity_from_node(temp, 3))
         set_sprite_hover(GET_SPRITE(), engine,
             GET_RES("back_hover"), GET_RES("back"));
-        change_animation((entity_t *)(temp->data), rotating_button, engine);
-    }
-    if (is_entity_from_node(temp, 4)) {
+    if (is_entity_from_node(temp, 4))
         set_sprite_hover(GET_SPRITE(), engine,
             GET_RES("900_hover"), GET_RES("900"));
-        change_animation((entity_t *)(temp->data), rotating_button, engine);
-    }
-    if (is_entity_from_node(temp, 5)) {
+    if (is_entity_from_node(temp, 5))
         set_sprite_hover(GET_SPRITE(), engine,
             GET_RES("1920_hover"), GET_RES("1920"));
-        change_animation((entity_t *)(temp->data), rotating_button, engine);
-    }
-    if (is_entity_from_node(temp, 6)) {
+    if (is_entity_from_node(temp, 6))
         set_sprite_hover(GET_SPRITE(), engine,
             GET_RES("4k_hover"), GET_RES("4k"));
-        change_animation((entity_t *)(temp->data), rotating_button, engine);
-    }
 }
 
 void update_resolution_game(linked_list_t *temp, engine_t *engine)
@@ -102,20 +94,26 @@ void destroy_settings_page(scene_t *scene)
     free(scene);
 }
 
+static linked_list_t *create_entity_list_settings_scene(engine_t *engine)
+{
+    linked_list_t *entity_list = new_list();
+
+    entity_list = push_front_list_all(entity_list, 6,
+        create_entity(GET_RES("4k"), POS(435, 975), 6, button_anim),
+        create_entity(GET_RES("1920"), POS(625, 775), 5, button_anim),
+        create_entity(GET_RES("900"), POS(250, 775), 4, button_anim),
+        create_entity(GET_RES("back"), POS(1813, 105), 3, button_anim),
+        create_entity(GET_RES("sound_on"), POS(430, 577), 2, bouncing_button),
+        create_entity(GET_RES("settings_bg"), POS(960, 540), 1, NULL));
+    return entity_list;
+}
+
 scene_t *init_settings_page(engine_t *engine)
 {
     linked_list_t *entity_list = new_list();
     scene_t *main_scene = malloc(sizeof(scene_t));
 
-    entity_list = push_front_list_all(entity_list, 6,
-        create_entity(GET_RES("4k"), POS(435, 975), 6, bouncing_button),
-        create_entity(GET_RES("1920"), POS(625, 775), 5, bouncing_button),
-        create_entity(GET_RES("900"), POS(250, 775), 4, bouncing_button),
-        create_entity(GET_RES("back"), POS(1813, 105), 3, bouncing_button),
-        create_entity(GET_RES("sound_on"),
-            POS(430, 577), 2, bouncing_button),
-        create_entity(GET_RES("settings_bg"),
-            POS(960, 540), 1, NULL));
+    entity_list = create_entity_list_settings_scene(engine);
     main_scene->id = 2;
     main_scene->entity_list = entity_list;
     main_scene->scene_render = &render_settings_page;

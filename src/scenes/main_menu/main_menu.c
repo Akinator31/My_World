@@ -34,21 +34,15 @@ void update_button_hover_main(linked_list_t *temp, engine_t *engine)
     sfSprite *sprite = (sfSprite *)(entity->sprite);
 
     switch_menu_music(engine);
-    if (entity->id == 2) {
+    if (entity->id == 2)
         set_sprite_hover(sprite, engine,
         GET_RES("start_button_hover"), GET_RES("start_button"));
-        change_animation(entity, rotating_button, engine);
-    }
-    if (entity->id == 3) {
+    if (entity->id == 3)
         set_sprite_hover(sprite, engine,
         GET_RES("quit_button_hover"), GET_RES("quit_button"));
-        change_animation(entity, rotating_button, engine);
-    }
-    if (entity->id == 4) {
+    if (entity->id == 4)
         set_sprite_hover(sprite, engine,
         GET_RES("settings_button_hover"), GET_RES("settings_button"));
-        change_animation(entity, rotating_button, engine);
-    }
     temp = temp->next;
 }
 
@@ -86,6 +80,21 @@ void destroy_main_page(scene_t *scene)
     free(scene);
 }
 
+static linked_list_t *create_entity_list_main_scene(engine_t *engine)
+{
+    linked_list_t *entity_list = new_list();
+
+    entity_list = push_front_list_all(entity_list, 4,
+        create_entity(GET_RES("start_button"), POS(300, 875), 2,
+            button_anim),
+        create_entity(GET_RES("quit_button"), POS(1813, 105), 3,
+            button_anim),
+        create_entity(GET_RES("settings_button"), POS(579, 877), 4,
+            button_anim),
+        create_entity(GET_RES("background"), POS(960, 540), 1, NULL));
+    return entity_list;
+}
+
 scene_t *init_main_page(engine_t *engine)
 {
     linked_list_t *entity_list = new_list();
@@ -93,14 +102,7 @@ scene_t *init_main_page(engine_t *engine)
 
     sfMusic_setLoop(GET_RES("menu_music"), sfTrue);
     sfMusic_play(GET_RES("menu_music"));
-    entity_list = push_front_list_all(entity_list, 4,
-        create_entity(GET_RES("start_button"), POS(300, 875), 2,
-            bouncing_button),
-        create_entity(GET_RES("quit_button"), POS(1813, 105), 3,
-            bouncing_button),
-        create_entity(GET_RES("settings_button"), POS(579, 877), 4,
-            bouncing_button),
-        create_entity(GET_RES("background"), POS(960, 540), 1, NULL));
+    entity_list = create_entity_list_main_scene(engine);
     main_scene->id = 1;
     main_scene->entity_list = entity_list;
     main_scene->scene_render = &render_main_page;

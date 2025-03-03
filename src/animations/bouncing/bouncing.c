@@ -20,7 +20,7 @@ void increase_decrease_scale(sfVector2f scale,
 }
 
 void bouncing_button(entity_t *entity, UNUSED scene_t *scene,
-    UNUSED engine_t *engine)
+    engine_t *engine)
 {
     sfVector2f scale = sfSprite_getScale(entity->sprite);
     sfVector2f origin_scale = entity->original_scale;
@@ -29,10 +29,10 @@ void bouncing_button(entity_t *entity, UNUSED scene_t *scene,
     increase_decrease_scale(scale, origin_scale, &entity->scale_direction);
     if (!entity->scale_direction)
         sfSprite_setScale(sprite,
-            (sfVector2f){scale.x -(0.2 * engine->delta_time),
-            scale.y - (0.2 * engine->delta_time)});
+            (sfVector2f){scale.x -(0.1 * engine->delta_time),
+            scale.y - (0.1 * engine->delta_time)});
     else
         sfSprite_setScale(sprite,
-            (sfVector2f){scale.x + (0.2 * engine->delta_time),
-            scale.y + (0.2 * engine->delta_time)});
+            (sfVector2f){scale.x + (0.1 * engine->delta_time),
+            scale.y + (0.1 * engine->delta_time)});
 }

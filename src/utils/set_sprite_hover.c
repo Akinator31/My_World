@@ -17,9 +17,8 @@ void set_sprite_hover(sfSprite *sprite, engine_t *engine,
         sfRenderWindow_getSize(engine->window).y};
 
     if (sfFloatRect_contains(&texture_rect, mouse_pos.x *
-        (1920 / window_size.x), mouse_pos.y * (1080 / window_size.y))) {
+        (1920 / window_size.x), mouse_pos.y * (1080 / window_size.y)))
         sfSprite_setTexture(sprite, new_texture, sfTrue);
-    } else {
+    else
         sfSprite_setTexture(sprite, original_texture, sfTrue);
-    }
 }
