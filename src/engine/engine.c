@@ -31,6 +31,8 @@ engine_t *load_game(unsigned int default_framerate, char **envp)
     engine->ressources = create_ressources(engine);
     engine->scenes_list = load_scenes(engine);
     engine->default_fps_framerate = default_framerate;
+    engine->map = NULL;
+    engine->mouse_status = 1;
     engine->is_strange_mode = false;
     init_thread(engine);
     set_icon(engine);
