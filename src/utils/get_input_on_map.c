@@ -99,8 +99,12 @@ void cmp_position(engine_t *engine)
     return;
 }
 
-static void zoom_in(map_t *map)
+static void zoom_in(engine_t *engine, map_t *map)
 {
+    if (engine->event.mouseWheelScroll.delta < 0.0)
+        map->zoom--;
+    if (engine->event.mouseWheelScroll.delta > 0.0)
+        map->zoom++;
     if (sfKeyboard_isKeyPressed(sfKeyP))
         map->zoom++;
     if (sfKeyboard_isKeyPressed(sfKeyM))
@@ -123,15 +127,15 @@ void move_map_input(engine_t *engine)
 {
     map_t *map = engine->map;
 
-    zoom_in(map);
+    zoom_in(engine, map);
     change_angle(map);
-    if (sfKeyboard_isKeyPressed(sfKeyI))
+    if (sfKeyboard_isKeyPressed(sfKeyI) || sfKeyboard_isKeyPressed(sfKeyUp))
         map->offset_y -= 10;
-    if (sfKeyboard_isKeyPressed(sfKeyK))
+    if (sfKeyboard_isKeyPressed(sfKeyK) || sfKeyboard_isKeyPressed(sfKeyDown))
         map->offset_y += 10;
-    if (sfKeyboard_isKeyPressed(sfKeyJ))
+    if (sfKeyboard_isKeyPressed(sfKeyJ) || sfKeyboard_isKeyPressed(sfKeyRight))
         map->offset_x -= 10;
-    if (sfKeyboard_isKeyPressed(sfKeyL))
+    if (sfKeyboard_isKeyPressed(sfKeyL) || sfKeyboard_isKeyPressed(sfKeyLeft))
         map->offset_x += 10;
     map->map2D = change_2d_map(map);
 }

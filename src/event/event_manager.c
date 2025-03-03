@@ -59,7 +59,8 @@ void analyse_event(engine_t *engine)
 {
     if (engine->event.type == sfEvtClosed)
         engine->state = CLOSING;
-    if (engine->event.type == sfEvtKeyPressed)
+    if (engine->event.type == sfEvtKeyPressed ||
+        engine->event.type == sfEvtMouseWheelScrolled)
         move_map_input(engine);
     if (engine->event.type == sfEvtKeyPressed &&
         sfKeyboard_isKeyPressed(sfKeyQ))
