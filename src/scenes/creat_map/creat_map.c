@@ -35,21 +35,24 @@ void update_button_hover_creat_map_scene(linked_list_t *temp,
     engine_t *engine)
 {
     switch_menu_music(engine);
-    if (IS_ENTITY(1))
+    if (is_entity_from_node(temp, 1))
         set_sprite_hover(GET_SPRITE(), engine,
         GET_RES("10x10_hover"), GET_RES("10x10"));
-    if (IS_ENTITY(2))
+    if (is_entity_from_node(temp, 2))
         set_sprite_hover(GET_SPRITE(), engine,
         GET_RES("50x50_hover"), GET_RES("50x50"));
-    if (IS_ENTITY(3))
+    if (is_entity_from_node(temp, 3))
         set_sprite_hover(GET_SPRITE(), engine,
         GET_RES("100x100_hover"), GET_RES("100x100"));
-    if (IS_ENTITY(4))
+    if (is_entity_from_node(temp, 4))
         set_sprite_hover(GET_SPRITE(), engine,
         GET_RES("custom_hover"), GET_RES("custom"));
-    if (IS_ENTITY(5))
+    if (is_entity_from_node(temp, 5))
         set_sprite_hover(GET_SPRITE(), engine,
-        GET_RES("quit_button_hover"), GET_RES("quit_button"));
+        GET_RES("back_hover"), GET_RES("back"));
+    if (is_entity_from_node(temp, 6))
+        set_sprite_hover(GET_SPRITE(), engine,
+        GET_RES("load_hover"), GET_RES("load"));
 }
 
 void set_map_size(int entity, int size, engine_t *engine, linked_list_t *temp)
@@ -99,22 +102,24 @@ static void destroy_creat_map_scene(scene_t *scene)
     free(scene);
 }
 
-static linked_list_t *create_entity_list(engine_t *engine)
+static linked_list_t *create_entity_list_map_scene(engine_t *engine)
 {
     linked_list_t *entity_list = new_list();
 
-    entity_list = push_front_list_all(entity_list, 6,
+    entity_list = push_front_list_all(entity_list, 7,
         create_entity(GET_RES("10x10"), POS(460, 475),
-            1, bouncing_button),
+            1, button_anim),
         create_entity(GET_RES("50x50"), POS(960, 475), 2,
-            bouncing_button),
+            button_anim),
         create_entity(GET_RES("100x100"), POS(1460, 475), 3,
-            bouncing_button),
+            button_anim),
         create_entity(GET_RES("custom"), POS(960, 775), 4,
-            bouncing_button),
-        create_entity(GET_RES("quit_button"), POS(1813, 105), 5,
-            bouncing_button),
-        create_entity(GET_RES("create_map_bg"), POS(960, 540), 6, NULL));
+            button_anim),
+        create_entity(GET_RES("back"), POS(1813, 105), 5,
+            button_anim),
+        create_entity(GET_RES("load"), POS(107, 105), 6,
+            button_anim),
+        create_entity(GET_RES("create_map_bg"), POS(960, 540), 7, NULL));
     return entity_list;
 }
 
@@ -125,7 +130,7 @@ scene_t *init_creat_map_scene(engine_t *engine)
     sfMusic_setLoop(GET_RES("game_music"), sfTrue);
     creat_map_scene->id = 4;
     creat_map_scene->clock = sfClock_create();
-    creat_map_scene->entity_list = create_entity_list(engine);
+    creat_map_scene->entity_list = create_entity_list_map_scene(engine);
     creat_map_scene->scene_render = &render_creat_map_scene;
     creat_map_scene->scene_update = &update_creat_map_scene;
     creat_map_scene->scene_destroy = &destroy_creat_map_scene;
