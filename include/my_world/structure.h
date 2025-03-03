@@ -97,6 +97,7 @@ struct engine_s {
     float delta_time;
     int music_selector;
     int default_fps_framerate;
+    int is_strange_mode;
 };
 
 /*

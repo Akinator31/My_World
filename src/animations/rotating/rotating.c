@@ -26,8 +26,10 @@ void rotating_button(entity_t *entity, UNUSED scene_t *scene,
     sfSprite *sprite = entity->sprite;
 
     rotate_unrotate_scale(rotation, &rotating_direction);
-    if (!rotating_direction)
+    if (!rotating_direction && !engine->is_strange_mode)
         sfSprite_setRotation(sprite, rotation + (35 * engine->delta_time));
+    else if (!rotating_direction && engine->is_strange_mode)
+        sfSprite_rotate(sprite, rotation + (35 * engine->delta_time));
     else
         sfSprite_setRotation(sprite, rotation - (35 * engine->delta_time));
 }

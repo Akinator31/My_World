@@ -44,6 +44,17 @@ void manage_music(engine_t *engine, entity_t *entity)
     }
 }
 
+static void strange_mode(engine_t *engine)
+{
+    if (engine->event.type == sfEvtKeyPressed &&
+        sfKeyboard_isKeyPressed(sfKeyP)) {
+            if (engine->is_strange_mode)
+            engine->is_strange_mode = false;
+        else
+            engine->is_strange_mode = true;
+    }
+}
+
 void analyse_event(engine_t *engine)
 {
     if (engine->event.type == sfEvtClosed)
@@ -51,4 +62,5 @@ void analyse_event(engine_t *engine)
     if (engine->event.type == sfEvtKeyPressed &&
         sfKeyboard_isKeyPressed(sfKeyQ))
         engine->state = CLOSING;
+    strange_mode(engine);
 }
