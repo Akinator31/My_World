@@ -117,41 +117,41 @@ status:
 build/%.o:  %.c
 	@mkdir -p $(dir $@)
 	@echo "\033[31mBuilding $<\033[0m";
-	@gcc $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 build-debug/%.o:  %.c
 	@mkdir -p $(dir $@)
 	@echo "\033[31mBuilding $<\033[0m";
-	gcc $(DEBUG_FLAGS) -c $< -o $@
+	$(CC) $(DEBUG_FLAGS) -c $< -o $@
 
 build-optimization/%.o: %.c
 	@mkdir -p $(dir $@)
 	@echo "\033[31mBuilding $<\033[0m";
-	gcc $(OPTIMIZATION_FLAGS) -c $< -o $@
+	$(CC) $(OPTIMIZATION_FLAGS) -c $< -o $@
 
 $(NAME):    status $(OBJ)
-	@gcc -o $(NAME) $(OBJ) $(CFLAGS);
+	@$(CC) -o $(NAME) $(OBJ) $(CFLAGS);
 	@echo "\033[32mProject build successfully !\033[0m";
 
 $(DEBUG_NAME):    $(OBJ_DEBUG)
-	gcc -o $(DEBUG_NAME) $(OBJ_DEBUG) $(DEBUG_FLAGS)
+	$(CC) -o $(DEBUG_NAME) $(OBJ_DEBUG) $(DEBUG_FLAGS)
 	@echo "\033[32mProject build successfully !\033[0m";
 
 $(OPTIMIZATION_NAME):   $(OBJ_OPTIMIZATION)
-	gcc -o $(OPTIMIZATION_NAME) $(OBJ_OPTIMIZATION) $(OPTIMIZATION_FLAGS)
+	$(CC) -o $(OPTIMIZATION_NAME) $(OBJ_OPTIMIZATION) $(OPTIMIZATION_FLAGS)
 	@echo "\033[32mProject build successfully !\033[0m";
 
 clean:
-      $(shell find . -type f -name "*.o" -delete)
+	@$(RM) $(OBJ)
 
-fclean:
-	@rm -f $(NAME)
-	@rm -f $(DEBUG_NAME)
-	@rm -f $(OPTIMIZATION_NAME)
-	@rm -rf build-optimization
-	@rm -rf build-debug
-	@rm -rf build
-	@echo "\033[32mProject cleaned !$<\033[0m";
+fclean: clean
+	@$(RM) $(NAME)
+	@$(RM) $(DEBUG_NAME)
+	@$(RM) $(OPTIMIZATION_NAME)
+	@$(RM) -r build-optimization
+	@$(RM) -r build-debug
+	@$(RM) -r build
+	@echo "\033[32mProject cleaned !\033[0m";
 
 re:   fclean all
 
