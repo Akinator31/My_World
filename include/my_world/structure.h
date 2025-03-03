@@ -97,8 +97,6 @@ struct engine_s {
     int music_selector;
     int default_fps_framerate;
     int is_strange_mode;
-    int music_state;
-    int music_selector;
     int mouse_status;
 };
 
