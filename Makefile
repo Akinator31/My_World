@@ -41,7 +41,8 @@ SRC_UTILS   =     src/utils/check_screen_size.c \
                   src/utils/multi_array_vector.c \
                   src/utils/mute_or_unmute_music.c \
                   src/utils/is_mouse_on_sprite.c \
-                  src/utils/draw_2d_map.c
+                  src/utils/draw_2d_map.c \
+                  src/utils/get_input_on_map.c \
 
 SRC_LIB_MY_LIST   =     lib/my_list/remove_data.c \
                         lib/my_list/info_list.c \
