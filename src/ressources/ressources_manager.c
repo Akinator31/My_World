@@ -73,6 +73,9 @@ static const assets_t assets[] = {
     {"custom", "assets/images/creat_map_menu/buttons/custom.png", TEXTURE},
     {"custom_hover", "assets/images/creat_map_menu/"
         "buttons/hover/custom_hover.png", TEXTURE},
+    {"load", "assets/images/creat_map_menu/buttons/load_button.png", TEXTURE},
+    {"load_hover", "assets/images/creat_map_menu/buttons/hover/"
+        "load_button_hover.png", TEXTURE},
     {NULL, NULL, 0},
 };
 

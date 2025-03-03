@@ -17,7 +17,8 @@ SRC_ENTITY  =     src/entity/entity.c \
                   src/entity/utils/entity_utils.c
 
 SRC_ANIMATIONS    =     src/animations/rotating/rotating.c \
-                        src/animations/bouncing/bouncing.c
+                        src/animations/bouncing/bouncing.c \
+                        src/animations/button/button_anim.c \
 
 SRC_SCENES  =     src/scenes/main_menu/main_menu.c \
                   src/scenes/scenes_manager.c \
