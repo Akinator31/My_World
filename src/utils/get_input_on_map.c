@@ -101,6 +101,10 @@ void cmp_position(engine_t *engine)
 
 static void zoom_in(engine_t *engine, map_t *map)
 {
+    if (map->zoom < 5) {
+        map->zoom = 5;
+        return;
+    }
     if (engine->event.mouseWheelScroll.delta < 0.0)
         map->zoom--;
     if (engine->event.mouseWheelScroll.delta > 0.0)
