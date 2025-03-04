@@ -131,6 +131,8 @@ void move_map_input(engine_t *engine)
 {
     map_t *map = engine->map;
 
+    if (!map)
+        return;
     zoom_in(engine, map);
     change_angle(map);
     if (sfKeyboard_isKeyPressed(sfKeyI) || sfKeyboard_isKeyPressed(sfKeyUp))
