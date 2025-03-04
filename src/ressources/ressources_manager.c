@@ -11,6 +11,7 @@
 #include "structure.h"
 #include "hashtable.h"
 #include "ressources.h"
+#include "utils.h"
 
 static const assets_t assets[] = {
     {"background", "assets/images/main_menu/bg.png", TEXTURE},
@@ -142,8 +143,11 @@ ressource_manager_t *create_ressources(engine_t *engine)
 {
     int result = 1;
     ressource_manager_t *ressources = malloc(sizeof(ressource_manager_t));
+    hashtable_t *hashtable = new_hashtable(&hash, 30);
 
-    ressources->hashtable = new_hashtable(&hash, 30);
+    if (alloc_error(engine, ressources) || alloc_error(engine, hashtable))
+        return NULL;
+    ressources->hashtable = hashtable;
     for (int i = 0; assets[i].name; i++) {
         if (assets[i].type == TEXTURE)
             result = create_texture_in_hashtable(engine, ressources, i);

@@ -17,6 +17,8 @@ hashtable_t *new_hashtable(int (*hash)(char *, int), int len)
         return NULL;
     hashtable = malloc(sizeof(hashtable_t));
     data = malloc(sizeof(data_t *) * len);
+    if (!hashtable || !data)
+        return NULL;
     hashtable->len = len;
     hashtable->hash = hash;
     for (int i = 0; i < len; i++)

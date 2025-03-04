@@ -44,11 +44,14 @@ engine_t *load_game(unsigned int default_framerate, char **envp)
 void clean_scene(linked_list_t *list)
 {
     linked_list_t *temp = list;
+    scene_t *scene = NULL;
 
     if (!list)
         return;
     while (list != NULL) {
-        ((scene_t *)list->data)->scene_destroy(list->data);
+        scene = (scene_t *)(list->data);
+        if (scene)
+            ((scene_t *)list->data)->scene_destroy(list->data);
         list = list->next;
     }
     clear_list(temp);

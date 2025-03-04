@@ -15,6 +15,8 @@ linked_list_t *push_front_list(linked_list_t *list, void *data)
 {
     linked_list_t *new_element = malloc(sizeof(linked_list_t));
 
+    if (!new_element)
+        return NULL;
     new_element->data = data;
     new_element->next = list;
     return new_element;
@@ -27,6 +29,8 @@ linked_list_t *push_front_list_all(linked_list_t *list, int nb, ...)
     va_start(args, nb);
     for (int i = 0; i < nb; i++) {
         list = push_front_list(list, va_arg(args, void *));
+        if (!list)
+            return NULL;
     }
     va_end(args);
     return list;
@@ -38,6 +42,8 @@ linked_list_t *push_back_list(linked_list_t *list, void *data)
     linked_list_t *temp = list;
     linked_list_t *prev;
 
+    if (!new_element)
+        return NULL;
     while (temp != NULL) {
         prev = temp;
         temp = temp->next;

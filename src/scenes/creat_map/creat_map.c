@@ -67,8 +67,12 @@ void set_map_size(int entity, int size, engine_t *engine, linked_list_t *temp)
     map_t *map = NULL;
 
     map = malloc(sizeof(map_t));
-    if (MOUSE_PRESSED() && IS_ENTITY(entity) &&
-        IS_CLICK(((entity_t *)(temp->data))->sprite)) {
+    if (!map) {
+        engine->state = ERROR;
+        return;
+    }
+    if (is_event_on_entity(engine, temp, entity)) {
+        sleep_while_event(engine, sfEvtMouseButtonPressed);
         map->map3D = create_array_int(size);
         map->zoom = 1000.0 / size;
         map->size_tab = size;
@@ -143,6 +147,8 @@ scene_t *init_creat_map_scene(engine_t *engine)
 {
     scene_t *creat_map_scene = malloc(sizeof(scene_t));
 
+    if (alloc_error(engine, creat_map_scene))
+        return NULL;
     sfMusic_setLoop(GET_RES("game_music"), sfTrue);
     creat_map_scene->id = 4;
     creat_map_scene->clock = sfClock_create();

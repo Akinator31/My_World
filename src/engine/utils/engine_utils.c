@@ -20,8 +20,11 @@ int tty_checker(char **envp)
 
 void set_icon(engine_t *engine)
 {
-    const sfUint8 *icon = sfImage_getPixelsPtr(GET_RES("icon"));
+    const sfUint8 *icon = NULL;
 
+    if (!engine->ressources || !engine->ressources->hashtable)
+        return;
+    icon = sfImage_getPixelsPtr(GET_RES("icon"));
     if (engine->state != ERROR) {
         sfRenderWindow_setIcon(engine->window, 32, 32, icon);
     }

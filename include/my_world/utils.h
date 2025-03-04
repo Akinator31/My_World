@@ -41,4 +41,6 @@ sfVector2f **change_2d_map(map_t *map);
 void move_map_input(engine_t *engine);
 void cmp_position(engine_t *engine);
 void key_pressed_on_map(engine_t *engine);
+int alloc_error(engine_t *engine, void *data);
+
 #endif

@@ -92,6 +92,8 @@ static linked_list_t *create_entity_list_main_scene(engine_t *engine)
         create_entity(GET_RES("settings_button"), POS(579, 877), 4,
             button_anim),
         create_entity(GET_RES("background"), POS(960, 540), 1, NULL));
+    if (alloc_error(engine, entity_list))
+        return NULL;
     return entity_list;
 }
 
