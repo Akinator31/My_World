@@ -59,6 +59,7 @@ int update_game_scene(scene_t *scene, engine_t *engine)
         update_button_game(temp, engine);
         if (is_event_on_entity(engine, temp, 2)) {
             sleep_while_event(engine, sfEvtMouseButtonPressed);
+            free_map(engine->map);
             change_scene(engine, 4);
         }
         temp = temp->next;

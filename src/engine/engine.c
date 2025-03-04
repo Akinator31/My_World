@@ -68,6 +68,7 @@ int engine_destroy(engine_t *engine, sfThread *event_thread)
     sfRenderWindow_destroy(engine->window);
     sfClock_destroy(engine->clock);
     destroy_ressources(engine->ressources);
+    free_map(engine->map);
     if (engine->state == ERROR) {
         free(engine->ressources);
         free(engine);

@@ -12,6 +12,8 @@
 
 map_t *free_map(map_t *map)
 {
+    if (map == NULL)
+        return NULL;
     for (int i = 0; i < map->size_tab; i++) {
         free(map->map2D[i]);
         free(map->map3D[i]);

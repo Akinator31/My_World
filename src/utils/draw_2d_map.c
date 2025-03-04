@@ -21,28 +21,30 @@ sfVertexArray *create_line(sfVertexArray *vertex_array, sfVector2f *point1,
     sfVertex vertex1 = {.position = *point1, .color = sfWhite};
     sfVertex vertex2 = {.position = *point2, .color = sfWhite};
 
-    vertex_array = sfVertexArray_create();
     sfVertexArray_append(vertex_array, vertex1);
     sfVertexArray_append(vertex_array, vertex2);
     sfVertexArray_setPrimitiveType(vertex_array, sfLinesStrip);
     return (vertex_array);
 }
 
-static int draw_vertex(engine_t *engine, int i, int j, map_t *map)
+static int draw_vertex(engine_t *engine, int i, int j)
 {
-    sfVertexArray *vertex_array_left = sfVertexArray_create();
-    sfVertexArray *vertex_array_right = sfVertexArray_create();
+    map_t *map = engine->map;
 
-    if (i + 1 < map->size_tab)
+    if (i + 1 < map->size_tab) {
+        map->vertex_array_left = sfVertexArray_create();
         sfRenderWindow_drawVertexArray(engine->window,
-            create_line(vertex_array_left, &map->map2D[i][j],
+            create_line(map->vertex_array_left, &map->map2D[i][j],
                 &map->map2D[i + 1][j]), NULL);
-    if (j + 1 < map->size_tab)
+        sfVertexArray_destroy(map->vertex_array_left);
+    }
+    if (j + 1 < map->size_tab) {
+        map->vertex_array_right = sfVertexArray_create();
         sfRenderWindow_drawVertexArray(engine->window,
-            create_line(vertex_array_right, &map->map2D[i][j],
+            create_line(map->vertex_array_right, &map->map2D[i][j],
                 &map->map2D[i][j + 1]), NULL);
-    sfVertexArray_destroy(vertex_array_left);
-    sfVertexArray_destroy(vertex_array_right);
+        sfVertexArray_destroy(map->vertex_array_right);
+    }
     return 0;
 }
 
@@ -54,7 +56,7 @@ int draw_2d_map(engine_t *engine)
         return 84;
     for (int i = 0; map->map2D[i] != NULL; i++) {
         for (int j = 0; map->map2D[j] != NULL; j++) {
-            draw_vertex(engine, i, j, map);
+            draw_vertex(engine, i, j);
         }
     }
     return 0;
