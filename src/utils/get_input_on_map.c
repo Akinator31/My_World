@@ -105,10 +105,6 @@ static void zoom_in(engine_t *engine, map_t *map)
         map->zoom = 5;
         return;
     }
-    if (engine->event.mouseWheelScroll.delta < 0.0)
-        map->zoom--;
-    if (engine->event.mouseWheelScroll.delta > 0.0)
-        map->zoom++;
     if (sfKeyboard_isKeyPressed(sfKeyP))
         map->zoom++;
     if (sfKeyboard_isKeyPressed(sfKeyM))

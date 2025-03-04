@@ -148,8 +148,7 @@ struct entity_s {
 struct map_s {
     int **map3D;
     sfVector2f **map2D;
-    sfVertexArray *vertex_array_left;
-    sfVertexArray *vertex_array_right;
+    sfVertexArray *vertex_array;
     int size_tab;
     float zoom;
     int angle;
