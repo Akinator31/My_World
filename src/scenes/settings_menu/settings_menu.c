@@ -49,16 +49,19 @@ void update_resolution_game(linked_list_t *temp, engine_t *engine)
         !check_screen_size(engine, SF_VECTOR_2U(900, 600))) {
         sfRenderWindow_setPosition(engine->window, SF_VECTOR_2I(0, 0));
         sfRenderWindow_setSize(engine->window, SF_VECTOR_2U(900, 600));
+        engine->screen_size = SF_VECTOR_2I(900, 600);
     }
     if (is_event_on_entity(engine, temp, 5) &&
         !check_screen_size(engine, SF_VECTOR_2U(1920, 1080))) {
         sfRenderWindow_setPosition(engine->window, SF_VECTOR_2I(0, 0));
         sfRenderWindow_setSize(engine->window, SF_VECTOR_2U(1920, 1080));
+        engine->screen_size = SF_VECTOR_2I(1920, 1080);
     }
     if (is_event_on_entity(engine, temp, 6) &&
         !check_screen_size(engine, SF_VECTOR_2U(3840, 2160))) {
         sfRenderWindow_setPosition(engine->window, SF_VECTOR_2I(0, 0));
         sfRenderWindow_setSize(engine->window, SF_VECTOR_2U(3840, 2160));
+        engine->screen_size = SF_VECTOR_2I(3840, 2160);
     }
 }
 

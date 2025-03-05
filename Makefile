@@ -44,6 +44,7 @@ SRC_UTILS   =     src/utils/check_screen_size.c \
                   src/utils/draw_2d_map.c \
                   src/utils/get_input_on_map.c \
                   src/utils/alloc_error.c \
+                  src/utils/free_map.c \
 
 SRC_LIB_MY_LIST   =     lib/my_list/remove_data.c \
                         lib/my_list/info_list.c \

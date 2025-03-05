@@ -66,13 +66,13 @@ void set_map_size(int entity, int size, engine_t *engine, linked_list_t *temp)
 {
     map_t *map = NULL;
 
-    map = malloc(sizeof(map_t));
-    if (!map) {
-        engine->state = ERROR;
-        return;
-    }
-    if (is_event_on_entity(engine, temp, entity)) {
-        sleep_while_event(engine, sfEvtMouseButtonPressed);
+    if (MOUSE_PRESSED() && IS_ENTITY(entity) &&
+        IS_CLICK(((entity_t *)(temp->data))->sprite)) {
+        map = malloc(sizeof(map_t));
+        if (!map) {
+            engine->state = ERROR;
+            return;
+        }
         map->map3D = create_array_int(size);
         map->zoom = 1000.0 / size;
         map->size_tab = size;

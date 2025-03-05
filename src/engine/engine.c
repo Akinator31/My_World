@@ -17,22 +17,29 @@
 #include "utils.h"
 #include "events.h"
 
+void load_principal(engine_t *engine)
+{
+    engine->window = create_window(WIDTH, HEIGTH, NAME);
+    engine->clock = sfClock_create();
+    engine->ressources = create_ressources(engine);
+    engine->scenes_list = load_scenes(engine);
+    engine->map = NULL;
+}
+
 engine_t *load_game(unsigned int default_framerate, char **envp)
 {
     engine_t *engine = calloc(1, sizeof(engine_t));
+    sfVector2i screen_size = {WIDTH, HEIGTH};
 
     if (!tty_checker(envp) || !engine) {
         if (engine)
             free(engine);
         return NULL;
     }
-    engine->window = create_window(WIDTH, HEIGTH, NAME);
-    engine->clock = sfClock_create();
-    engine->ressources = create_ressources(engine);
-    engine->scenes_list = load_scenes(engine);
+    load_principal(engine);
     engine->default_fps_framerate = default_framerate;
-    engine->map = NULL;
     engine->mouse_status = 1;
+    engine->screen_size = screen_size;
     engine->is_strange_mode = false;
     init_thread(engine);
     set_icon(engine);
@@ -68,6 +75,7 @@ int engine_destroy(engine_t *engine, sfThread *event_thread)
     sfRenderWindow_destroy(engine->window);
     sfClock_destroy(engine->clock);
     destroy_ressources(engine->ressources);
+    free_map(engine->map);
     if (engine->state == ERROR) {
         free(engine->ressources);
         free(engine);

@@ -25,9 +25,11 @@ void render_game_scene(scene_t *scene, engine_t *engine)
     linked_list_t *temp = scene->entity_list;
 
     while (temp != NULL) {
-        if (((entity_t *)temp->data)->state == ACTIVE)
+        if (((entity_t *)temp->data)->state == ACTIVE) {
+            draw_2d_map(engine);
             sfRenderWindow_drawSprite(engine->window,
                 ((entity_t *)temp->data)->sprite, NULL);
+        }
         temp = temp->next;
     }
 }
@@ -50,15 +52,19 @@ int update_game_scene(scene_t *scene, engine_t *engine)
 {
     linked_list_t *temp = scene->entity_list;
 
-    key_pressed_on_map(engine);
-    cmp_position(engine);
-    draw_2d_map(engine);
+    if (engine->map == NULL) {
+        change_scene(engine, 4);
+    } else {
+        key_pressed_on_map(engine);
+        cmp_position(engine);
+    }
     switch_game_music(engine);
     while (temp != NULL) {
         entity_update_from_node(temp, scene, engine);
         update_button_game(temp, engine);
         if (is_event_on_entity(engine, temp, 2)) {
             sleep_while_event(engine, sfEvtMouseButtonPressed);
+            engine->map = free_map(engine->map);
             change_scene(engine, 4);
         }
         temp = temp->next;

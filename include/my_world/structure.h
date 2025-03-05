@@ -90,6 +90,7 @@ struct engine_s {
     scene_t *current_scene;
     linked_list_t *scenes_list;
     ressource_manager_t *ressources;
+    sfVector2i screen_size;
     int state;
     map_t *map;
     int music_state;
@@ -148,6 +149,7 @@ struct entity_s {
 struct map_s {
     int **map3D;
     sfVector2f **map2D;
+    sfVertexArray *vertex_array;
     int size_tab;
     float zoom;
     int angle;
