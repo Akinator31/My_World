@@ -5,13 +5,6 @@
 ** creat_map
 */
 
-/*
-** EPITECH PROJECT, 2025
-** G-ING-200-TLS-2-1-myworld-pavel.de-wavrechin
-** File description:
-** creat_map
-*/
-
 #include <SFML/Graphics.h>
 #include <stdlib.h>
 #include <time.h>
@@ -32,8 +25,10 @@ void render_creat_map_scene(scene_t *scene, engine_t *engine)
     linked_list_t *temp = scene->entity_list;
 
     while (temp != NULL) {
-        sfRenderWindow_drawSprite(engine->window,
-            ((entity_t *)temp->data)->sprite, NULL);
+        if (((entity_t *)temp->data)->state == ACTIVE) {
+            sfRenderWindow_drawSprite(engine->window,
+                ((entity_t *)temp->data)->sprite, NULL);
+        }
         temp = temp->next;
     }
 }
@@ -96,10 +91,10 @@ int update_creat_map_scene(scene_t *scene, engine_t *engine)
         set_map_size(2, 50, engine, temp);
         set_map_size(3, 100, engine, temp);
         entity_update_from_node(temp, scene, engine);
-        if (is_event_on_entity(engine, temp, 4)) {
-            sleep_while_event(engine, sfEvtMouseButtonPressed);
-            change_scene(engine, 3);
-        }
+        if (is_event_on_entity(engine, temp, 4))
+            change_entity_state(scene, 4, OFF_SCREEN, ACTIVE);
+        if (is_event_on_entity(engine, temp, 6))
+            change_entity_state(scene, 6, OFF_SCREEN, ACTIVE);
         if (is_event_on_entity(engine, temp, 5)) {
             sleep_while_event(engine, sfEvtMouseButtonPressed);
             change_scene(engine, 1);
