@@ -12,10 +12,14 @@
 void rotate_unrotate_scale(float rotation,
     int *rotating_direction)
 {
-    if (rotation >= 5.0 && rotation <= 6.0)
+    if (rotation >= 5.0 && rotation <= 6.0) {
         *rotating_direction = 1;
-    if (rotation <= 355.0 && rotation >= 6.0)
+        return;
+    }
+    if (rotation <= 355.0 && rotation >= 6.0) {
         *rotating_direction = 0;
+        return;
+    }
 }
 
 void rotating_button(entity_t *entity, UNUSED scene_t *scene,
