@@ -10,8 +10,7 @@
 #include "my_lib.h"
 #include "utils.h"
 
-static const char *help_message =
-    "=============================\n"
+static const char *help_message = "=============================\n"
     "       PAVEL WORLD       \n"
     "=============================\n"
     "\n"
