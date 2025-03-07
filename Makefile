@@ -75,6 +75,11 @@ SRC_LIB_MY_LIB    =     lib/my_lib/my_putstr.c \
 
 SRC_LIB_MY_PRINTF =     lib/my_printf/mini_printf.c
 
+TESTS_CRITERION =   tests/lib/criterion_lib_tests.c \
+                    tests/lib/criterion_list_tests.c \
+                    tests/lib/criterion_miniprintf_tests.c \
+                    tests/lib/criterion_hashtable_tests.c \
+
 SRC   =     $(SRC_MAIN) \
             $(SRC_ENGINE) \
             $(SRC_EVENT) \
@@ -88,6 +93,19 @@ SRC   =     $(SRC_MAIN) \
             $(SRC_LIB_MY_LIB) \
             $(SRC_LIB_MY_PRINTF)
 
+TESTS   =   $(SRC_ENGINE) \
+            $(SRC_EVENT) \
+            $(SRC_ENTITY) \
+            $(SRC_ANIMATIONS) \
+            $(SRC_SCENES) \
+            $(SRC_RESSOURCES) \
+            $(SRC_UTILS) \
+            $(SRC_LIB_MY_LIST) \
+            $(SRC_LIB_SECURED) \
+            $(SRC_LIB_MY_LIB) \
+            $(SRC_LIB_MY_PRINTF) \
+            $(TESTS_CRITERION)
+
 INCLUDE_H   =     include/lib \
                   include/my_world
 
@@ -97,22 +115,22 @@ OBJ   = 	$(SRC:%.c=build/%.o)
 
 OBJ_DEBUG   =     $(SRC:%.c=build-debug/%.o)
 
-OBJ_OPTIMIZATION  =     $(SRC:%.c=build-optimization/%.o)
+OBJ_TESTS  =     $(TESTS:%.c=build-tests/%.o)
 
 CFLAGS      += 	-lcsfml-audio -lcsfml-graphics -lcsfml-window \
 			-lcsfml-network -lcsfml-system -Wextra -Wall -lm $(INCLUDE)
 DEBUG_FLAGS =     -fsanitize=address -g3 -lcsfml-audio -lcsfml-graphics \
 			      -lcsfml-window -lcsfml-network -lcsfml-system \
 			      -Wextra -Wall -lm $(INCLUDE)
-OPTIMIZATION_FLAGS      = 	-fsanitize=address -g -pg -lcsfml-audio \
-				      -lcsfml-graphics -lcsfml-window -lcsfml-network \
-				      -lcsfml-system -Wextra -Wall -lm $(INCLUDE)
+TEST_FLAGS  =   -lcsfml-audio -lcsfml-graphics -lcsfml-window \
+			-lcsfml-network -lcsfml-system -Wextra -Wall -lm $(INCLUDE) \
+            --coverage -lgcov -lcriterion
 
 NAME  =      my_world
 
 DEBUG_NAME  =      debug
 
-OPTIMIZATION_NAME =     optimization
+TESTS_NAME  =   tests_my_world
 
 all:  $(NAME)
 
@@ -129,10 +147,10 @@ build-debug/%.o:  %.c
 	@echo "\033[31mBuilding $<\033[0m";
 	$(CC) $(DEBUG_FLAGS) -c $< -o $@
 
-build-optimization/%.o: %.c
+build-tests/%.o: %.c
 	@mkdir -p $(dir $@)
 	@echo "\033[31mBuilding $<\033[0m";
-	$(CC) $(OPTIMIZATION_FLAGS) -c $< -o $@
+	$(CC) $(TEST_FLAGS) -c $< -o $@
 
 $(NAME):    status $(OBJ)
 	@$(CC) -o $(NAME) $(OBJ) $(CFLAGS);
@@ -142,9 +160,14 @@ $(DEBUG_NAME):    $(OBJ_DEBUG)
 	$(CC) -o $(DEBUG_NAME) $(OBJ_DEBUG) $(DEBUG_FLAGS)
 	@echo "\033[32mProject build successfully !\033[0m";
 
-$(OPTIMIZATION_NAME):   $(OBJ_OPTIMIZATION)
-	$(CC) -o $(OPTIMIZATION_NAME) $(OBJ_OPTIMIZATION) $(OPTIMIZATION_FLAGS)
-	@echo "\033[32mProject build successfully !\033[0m";
+tests_run:  $(OBJ_TESTS)
+	$(CC) -o $(TESTS_NAME) $(OBJ_TESTS) $(TEST_FLAGS)
+	./$(TESTS_NAME)
+
+show_test: tests_run
+	mkdir -p coverage
+	gcovr -r . --html --html-details -o coverage/index.html
+	firefox coverage/index.html
 
 clean:
 	@$(RM) $(OBJ)
@@ -152,8 +175,8 @@ clean:
 fclean: clean
 	@$(RM) $(NAME)
 	@$(RM) $(DEBUG_NAME)
-	@$(RM) $(OPTIMIZATION_NAME)
-	@$(RM) -r build-optimization
+	@$(RM) $(TESTS_NAME)
+	@$(RM) -r build-tests
 	@$(RM) -r build-debug
 	@$(RM) -r build
 	@echo "\033[32mProject cleaned !\033[0m";

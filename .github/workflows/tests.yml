@@ -1,0 +1,22 @@
+name: Criterion tests check
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v4
+
+      - name: Installer les dépendences
+        run: sudo apt update && sudo apt install -y gcc make clang libcriterion-dev && sudo apt install -y libcsfml-graphics2.5 libcsfml-audio2.5 libcsfml-dev libcsfml-doc libcsfml-network2.5 libcsfml-system2.5 libcsfml-window2.5
+
+      - name: Compiler et tester le projet
+        run: make tests_run

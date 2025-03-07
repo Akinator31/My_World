@@ -40,16 +40,19 @@ linked_list_t *push_back_list(linked_list_t *list, void *data)
 {
     linked_list_t *new_element = malloc(sizeof(linked_list_t));
     linked_list_t *temp = list;
-    linked_list_t *prev;
 
     if (!new_element)
         return NULL;
-    while (temp != NULL) {
-        prev = temp;
+    if (list == NULL) {
+        new_element->data = data;
+        new_element->next = NULL;
+        return new_element;
+    }
+    while (temp->next != NULL) {
         temp = temp->next;
     }
     new_element->data = data;
     new_element->next = NULL;
-    prev->next = new_element;
+    temp->next = new_element;
     return list;
 }
