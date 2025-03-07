@@ -23,7 +23,8 @@ int is_event_on_entity(engine_t *engine,
     entity_t *entity = (entity_t *)(entity_node->data);
 
     if (engine->event.type == sfEvtMouseButtonPressed &&
-        entity->id == entity_id && is_mouse_on_sprite(engine, entity->sprite))
+        entity->id == entity_id && entity->state == ACTIVE &&
+        is_mouse_on_sprite(engine, entity->sprite))
         return 1;
     return 0;
 }
