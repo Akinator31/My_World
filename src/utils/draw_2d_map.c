@@ -27,28 +27,6 @@ sfVertexArray *create_line(sfVertexArray *vertex_array, sfVector2f *point1,
     return (vertex_array);
 }
 
-static void draw_column(engine_t *engine)
-{
-    map_t *map = engine->map;
-    int s_tab = map->size_tab - 1;
-    sfVector2f point1 = {map->map2D[s_tab][0].x, engine->screen_size.y};
-    sfVector2f point2 = {map->map2D[0][s_tab].x, engine->screen_size.y};
-    sfVector2f point3 = {map->map2D[s_tab][s_tab].x, engine->screen_size.y};
-
-    map->vertex_array = sfVertexArray_create();
-    sfRenderWindow_drawVertexArray(engine->window, create_line(
-        map->vertex_array, &map->map2D[s_tab][0], &point1), NULL);
-    sfVertexArray_destroy(map->vertex_array);
-    map->vertex_array = sfVertexArray_create();
-    sfRenderWindow_drawVertexArray(engine->window, create_line(
-        map->vertex_array, &map->map2D[0][s_tab], &point2), NULL);
-    sfVertexArray_destroy(map->vertex_array);
-    map->vertex_array = sfVertexArray_create();
-    sfRenderWindow_drawVertexArray(engine->window, create_line(
-        map->vertex_array, &map->map2D[s_tab][s_tab], &point3), NULL);
-    sfVertexArray_destroy(map->vertex_array);
-}
-
 static int draw_vertex(engine_t *engine, int i, int j)
 {
     map_t *map = engine->map;
@@ -72,19 +50,19 @@ static int draw_vertex(engine_t *engine, int i, int j)
 
 static sfVertexArray *create_quads(map_t *map, int i, int j)
 {
-    sfVertex vertex1 = {.position = map->map2D[i][j], .color = sfMagenta};
-    sfVertex vertex2 = {.position = map->map2D[i + 1][j], .color = sfMagenta};
-    sfVertex vertex4 = {.position = map->map2D[i][j + 1], .color = sfMagenta};
+    sfVertex vertex1 = {.position = map->map2D[i][j], .color = sfBlack};
+    sfVertex vertex2 = {.position = map->map2D[i + 1][j], .color = sfBlack};
+    sfVertex vertex4 = {.position = map->map2D[i][j + 1], .color = sfBlack};
     sfVertex vertex3 = {.position = map->map2D[i + 1][j + 1],
-        .color = sfMagenta};
+        .color = sfWhite};
 
     if (map->map3D[i][j] == map->map3D[i + 1][j]
         && map->map3D[i][j + 1] == map->map3D[i + 1][j + 1]
         && map->map3D[i][j] == map->map3D[i][j + 1]) {
-    vertex1.color = sfCyan;
-    vertex2.color = sfCyan;
-    vertex3.color = sfCyan;
-    vertex4.color = sfCyan;
+    vertex1.color = sfColor_fromRGB(156, 156, 156);
+    vertex2.color = sfColor_fromRGB(156, 156, 156);
+    vertex3.color = sfColor_fromRGB(156, 156, 156);
+    vertex4.color = sfColor_fromRGB(156, 156, 156);
         }
     sfVertexArray_append(map->vertex_array, vertex1);
     sfVertexArray_append(map->vertex_array, vertex2);
@@ -92,41 +70,6 @@ static sfVertexArray *create_quads(map_t *map, int i, int j)
     sfVertexArray_append(map->vertex_array, vertex4);
     sfVertexArray_setPrimitiveType(map->vertex_array, sfQuads);
     return map->vertex_array;
-}
-
-static sfVertexArray *quads_side(engine_t *engine, int size1, int size2)
-{
-    map_t *map = engine->map;
-    int s_tab = map->size_tab - 1;
-    sfVertex vertex1 = {.position = map->map2D[size1][size2],
-        .color = sfMagenta};
-    sfVertex vertex2 = {.position = {map->map2D[size1][size2].x,
-        engine->screen_size.y + 1000}, .color = sfMagenta};
-    sfVertex vertex4 = {.position = map->map2D[s_tab][s_tab],
-        .color = sfMagenta};
-    sfVertex vertex3 = {.position = {map->map2D[s_tab][s_tab].x,
-        engine->screen_size.y + 1000}, .color = sfMagenta};
-
-    sfVertexArray_append(map->vertex_array, vertex1);
-    sfVertexArray_append(map->vertex_array, vertex4);
-    sfVertexArray_append(map->vertex_array, vertex3);
-    sfVertexArray_append(map->vertex_array, vertex2);
-    sfVertexArray_setPrimitiveType(map->vertex_array, sfQuads);
-    return map->vertex_array;
-}
-
-static void draw_side(engine_t *engine)
-{
-    map_t *map = engine->map;
-
-    map->vertex_array = sfVertexArray_create();
-    sfRenderWindow_drawVertexArray(engine->window,
-            quads_side(engine, map->size_tab - 1, 0), NULL);
-    sfVertexArray_destroy(map->vertex_array);
-    map->vertex_array = sfVertexArray_create();
-    sfRenderWindow_drawVertexArray(engine->window,
-            quads_side(engine, 0, map->size_tab - 1), NULL);
-    sfVertexArray_destroy(map->vertex_array);
 }
 
 static void draw_square(engine_t *engine, int i, int j)
@@ -149,8 +92,6 @@ int draw_2d_map(engine_t *engine)
         return 84;
     for (int i = 0; map->map2D[i] != NULL; i++) {
         for (int j = 0; map->map2D[j] != NULL; j++) {
-            draw_side(engine);
-            draw_column(engine);
             draw_square(engine, i, j);
             draw_vertex(engine, i, j);
         }
