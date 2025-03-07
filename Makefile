@@ -16,7 +16,7 @@ SRC_EVENT   =     src/event/event_manager.c \
 SRC_ENTITY  =     src/entity/entity.c \
                   src/entity/utils/entity_utils.c
 
-SRC_ANIMATIONS    =     src/animations/rotating/rotating.c \
+SRC_ANIMATIONS    =     src/animations/rotating/rotating_animation.c \
                         src/animations/bouncing/bouncing.c \
                         src/animations/button/button_anim.c \
 
@@ -45,6 +45,7 @@ SRC_UTILS   =     src/utils/check_screen_size.c \
                   src/utils/get_input_on_map.c \
                   src/utils/alloc_error.c \
                   src/utils/free_map.c \
+                  src/utils/get_state.c \
 
 SRC_LIB_MY_LIST   =     lib/my_list/remove_data.c \
                         lib/my_list/info_list.c \
