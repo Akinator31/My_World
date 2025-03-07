@@ -34,6 +34,13 @@ void render_game_scene(scene_t *scene, engine_t *engine)
     }
 }
 
+void show_utils(scene_t *scene)
+{
+    change_entity_state(scene, 4, ACTIVE, OFF_SCREEN);
+    change_entity_state(scene, 5, ACTIVE, OFF_SCREEN);
+    change_entity_state(scene, 6, ACTIVE, OFF_SCREEN);
+}
+
 void update_button_game(linked_list_t *temp, engine_t *engine)
 {
     entity_t *entity = (entity_t *)(temp->data);
@@ -45,27 +52,62 @@ void update_button_game(linked_list_t *temp, engine_t *engine)
     if (entity->id == 3)
         set_sprite_hover(sprite, engine,
         GET_RES("pen_hover"), GET_RES("pen"));
+    if (entity->id == 4)
+        set_sprite_hover(sprite, engine,
+        GET_RES("up_hover"), GET_RES("up"));
+    if (entity->id == 6)
+        set_sprite_hover(sprite, engine,
+        GET_RES("down_hover"), GET_RES("down"));
+    if (entity->id == 5)
+        set_sprite_hover(sprite, engine,
+        GET_RES("flat_hover"), GET_RES("flat"));
     temp = temp->next;
 }
 
-int update_game_scene(scene_t *scene, engine_t *engine)
+static void catch_event_on_map(engine_t *engine)
 {
-    linked_list_t *temp = scene->entity_list;
-
     if (engine->map == NULL) {
         change_scene(engine, 4);
     } else {
         key_pressed_on_map(engine);
         cmp_position(engine);
     }
+}
+
+static void manage_mouse_status(engine_t *engine, linked_list_t *entity_node)
+{
+    if (is_event_on_entity(engine, entity_node, 4)) {
+        sleep_while_event(engine, sfEvtMouseButtonPressed);
+        engine->mouse_status = 0;
+    }
+    if (is_event_on_entity(engine, entity_node, 5)) {
+        sleep_while_event(engine, sfEvtMouseButtonPressed);
+        engine->mouse_status = 2;
+    }
+    if (is_event_on_entity(engine, entity_node, 6)) {
+        sleep_while_event(engine, sfEvtMouseButtonPressed);
+        engine->mouse_status = 1;
+    }
+}
+
+int update_game_scene(scene_t *scene, engine_t *engine)
+{
+    linked_list_t *temp = scene->entity_list;
+
+    catch_event_on_map(engine);
     switch_game_music(engine);
     while (temp != NULL) {
+        manage_mouse_status(engine, temp);
         entity_update_from_node(temp, scene, engine);
         update_button_game(temp, engine);
         if (is_event_on_entity(engine, temp, 2)) {
             sleep_while_event(engine, sfEvtMouseButtonPressed);
             engine->map = free_map(engine->map);
             change_scene(engine, 4);
+        }
+        if (is_event_on_entity(engine, temp, 3)) {
+            sleep_while_event(engine, sfEvtMouseButtonPressed);
+            show_utils(scene);
         }
         temp = temp->next;
     }
@@ -88,8 +130,20 @@ static void destroy_game_scene(scene_t *scene)
 static linked_list_t *create_entity_list_game_scene(engine_t *engine)
 {
     linked_list_t *entity_list = new_list();
+    entity_t *up_button = create_entity(GET_RES("up"),
+        POS(107, 286), 4, button_anim);
+    entity_t *flat_button = create_entity(GET_RES("flat"),
+        POS(107, 467), 5, button_anim);
+    entity_t *down_button = create_entity(GET_RES("down"),
+        POS(107, 648), 6, button_anim);
 
-    entity_list = push_front_list_all(entity_list, 3,
+    up_button->state = OFF_SCREEN;
+    flat_button->state = OFF_SCREEN;
+    down_button->state = OFF_SCREEN;
+    entity_list = push_front_list_all(entity_list, 6,
+        down_button,
+        flat_button,
+        up_button,
         create_entity(GET_RES("pen"), POS(107, 105), 3, button_anim),
         create_entity(GET_RES("back"), POS(1813, 105), 2, button_anim),
         create_entity(GET_RES("game_bg"), POS(960, 540), 1, NULL));
