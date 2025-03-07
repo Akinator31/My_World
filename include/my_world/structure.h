@@ -91,8 +91,8 @@ struct engine_s {
     linked_list_t *scenes_list;
     ressource_manager_t *ressources;
     sfVector2i screen_size;
-    int state;
     map_t *map;
+    int state;
     int music_state;
     float delta_time;
     int music_selector;

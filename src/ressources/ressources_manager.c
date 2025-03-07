@@ -80,6 +80,17 @@ static const assets_t assets[] = {
     {"pen", "assets/images/game_scene/buttons/pen_button.png", TEXTURE},
     {"pen_hover", "assets/images/game_scene/buttons/hover/"
         "pen_button_hover.png", TEXTURE},
+    {"up", "assets/images/game_scene/buttons/up_button.png", TEXTURE},
+    {"up_hover", "assets/images/game_scene/buttons/hover/"
+        "up_button_hover.png", TEXTURE},
+    {"down", "assets/images/game_scene/buttons/down_button.png", TEXTURE},
+    {"down_hover", "assets/images/game_scene/buttons/hover/"
+        "down_button_hover.png", TEXTURE},
+    {"flat", "assets/images/game_scene/buttons/flat_button.png", TEXTURE},
+    {"flat_hover", "assets/images/game_scene/buttons/hover/"
+        "flat_button_hover.png", TEXTURE},
+    {"texture_map", "assets/images/game_scene/texture_map.png", TEXTURE},
+    {"the_texture", "assets/images/game_scene/the_texture.png", TEXTURE},
     {NULL, NULL, 0},
 };
 
