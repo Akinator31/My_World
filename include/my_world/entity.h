@@ -20,5 +20,7 @@ void destroy_text_entity(entity_t *entity);
 int is_entity_from_node(linked_list_t *entity_node, int id);
 void entity_update_from_node(linked_list_t *entity_node,
     scene_t *scene, engine_t *engine);
+void change_entity_state(scene_t *scene, int entity_id,
+    int state_one, int state_two);
 
 #endif
