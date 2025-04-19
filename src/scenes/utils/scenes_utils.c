@@ -18,7 +18,7 @@ void change_animation(entity_t *entity,
     sfVector2u window_size = sfRenderWindow_getSize(engine->window);
 
     if (sfFloatRect_contains(&texture_rect, mouse_pos.x *
-        (1920 / window_size.x), mouse_pos.y * (1080 / window_size.y))) {
+        (1920. / window_size.x), mouse_pos.y * (1080. / window_size.y))) {
         sfSprite_setScale(entity->sprite, entity->original_scale);
         entity->entity_update = f;
     } else {

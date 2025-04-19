@@ -8,15 +8,12 @@
 #include <SFML/Graphics.h>
 #include <stdlib.h>
 #include <time.h>
-#include <math.h>
 #include <SFML/Graphics/RenderStates.h>
-#include "my_world.h"
 #include "structure.h"
 #include "entity.h"
 #include "my_list.h"
 #include "events.h"
 #include "utils.h"
-#include "engine.h"
 #include "scenes.h"
 #include "animations.h"
 
@@ -108,7 +105,7 @@ static void destroy_creat_map_scene(scene_t *scene)
 {
     linked_list_t *temp = scene->entity_list;
 
-    for (int i = 0; temp != NULL; i++) {
+    while (temp) {
         ((entity_t *)temp->data)->entity_destroy(temp->data);
         temp = temp->next;
     }

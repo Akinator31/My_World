@@ -6,7 +6,6 @@
 */
 
 #include <stdlib.h>
-#include "my_lib.h"
 #include "hashtable.h"
 
 int ht_insert(hashtable_t *ht, char *key, void *value)

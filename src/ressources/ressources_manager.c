@@ -7,7 +7,6 @@
 
 #include <SFML/Graphics.h>
 #include <stdlib.h>
-#include "my_world.h"
 #include "structure.h"
 #include "hashtable.h"
 #include "ressources.h"

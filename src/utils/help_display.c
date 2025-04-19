@@ -6,7 +6,6 @@
 */
 
 #include <unistd.h>
-#include "structure.h"
 #include "my_lib.h"
 #include "utils.h"
 

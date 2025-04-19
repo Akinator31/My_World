@@ -6,7 +6,6 @@
 */
 
 #include "structure.h"
-#include "engine.h"
 
 scene_t *get_scene_by_id(engine_t *engine, int id)
 {

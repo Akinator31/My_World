@@ -5,7 +5,7 @@
 ** check_screen_size
 */
 
-#include "engine.h"
+#include "utils.h"
 
 int check_screen_size(engine_t *engine, sfVector2u request_size)
 {

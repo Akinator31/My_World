@@ -9,7 +9,6 @@
 #include <SFML/Window.h>
 #include <SFML/Config.h>
 #include <math.h>
-#include "engine.h"
 #include "utils.h"
 #include "structure.h"
 

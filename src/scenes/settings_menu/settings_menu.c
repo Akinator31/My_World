@@ -8,7 +8,6 @@
 #include <SFML/Graphics.h>
 #include <stdlib.h>
 #include "scenes.h"
-#include "my_world.h"
 #include "structure.h"
 #include "entity.h"
 #include "my_list.h"
@@ -89,7 +88,7 @@ void destroy_settings_page(scene_t *scene)
 {
     linked_list_t *temp = scene->entity_list;
 
-    for (int i = 0; temp != NULL; i++) {
+    while (temp) {
         ((entity_t *)temp->data)->entity_destroy(temp->data);
         temp = temp->next;
     }

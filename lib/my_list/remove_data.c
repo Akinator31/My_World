@@ -7,7 +7,6 @@
 
 #include <stdlib.h>
 #include "my_list.h"
-#include "my_lib.h"
 
 linked_list_t *pop_front_list(linked_list_t *list,
     void (*clean_func)(void *data))

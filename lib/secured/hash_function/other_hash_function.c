@@ -6,7 +6,6 @@
 */
 
 #include <stdlib.h>
-#include <math.h>
 #include "hashtable.h"
 
 int calcul_nb_pair(int temp, char *key, int i, int nbr)

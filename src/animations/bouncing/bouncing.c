@@ -5,7 +5,6 @@
 ** animations
 */
 
-#include "entity.h"
 #include "structure.h"
 #include "animations.h"
 

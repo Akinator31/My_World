@@ -6,7 +6,6 @@
 */
 
 #include <SFML/Graphics.h>
-#include "my_world.h"
 #include "structure.h"
 #include "utils.h"
 #include "events.h"

@@ -9,11 +9,8 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <time.h>
-#include "my_world.h"
 #include "structure.h"
 #include "engine.h"
-#include "scenes.h"
-#include "events.h"
 #include "utils.h"
 
 int main(int ac, char **av, char **envp)

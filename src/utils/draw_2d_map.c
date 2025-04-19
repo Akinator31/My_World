@@ -12,10 +12,8 @@
 #include <SFML/Audio.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
 #include "structure.h"
 #include "utils.h"
-#include "ressources.h"
 
 sfVertexArray *create_line(sfVertexArray *vertex_array, sfVector2f *point1,
     sfVector2f *point2)

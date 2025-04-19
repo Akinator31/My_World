@@ -6,7 +6,6 @@
 */
 
 #include <SFML/Graphics.h>
-#include "my_world.h"
 #include "structure.h"
 #include "utils.h"
 #include "events.h"
@@ -48,7 +47,7 @@ static void strange_mode(engine_t *engine)
 {
     if (engine->event.type == sfEvtKeyPressed &&
         sfKeyboard_isKeyPressed(sfKeyP)) {
-            if (engine->is_strange_mode)
+        if (engine->is_strange_mode)
             engine->is_strange_mode = false;
         else
             engine->is_strange_mode = true;

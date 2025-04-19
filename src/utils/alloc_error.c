@@ -6,7 +6,6 @@
 */
 
 #include <unistd.h>
-#include "engine.h"
 #include "utils.h"
 
 int alloc_error(engine_t *engine, void *data)

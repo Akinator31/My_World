@@ -25,8 +25,8 @@ entity_t *create_entity(sfTexture *texture, sfVector2f pos, int id,
     entity->clock = sfClock_create();
     sfSprite_setTexture(entity->sprite, texture, sfFalse);
     sprite_rect = sfSprite_getTextureRect(entity->sprite);
-    sfSprite_setOrigin(entity->sprite, (sfVector2f){sprite_rect.width / 2,
-        sprite_rect.height / 2});
+    sfSprite_setOrigin(entity->sprite, (sfVector2f){sprite_rect.width / 2.,
+        sprite_rect.height / 2.});
     sfSprite_setPosition(entity->sprite, pos);
     entity->original_scale = sfSprite_getScale(entity->sprite);
     return entity;

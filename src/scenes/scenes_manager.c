@@ -8,7 +8,6 @@
 #include <SFML/Graphics.h>
 #include <stdio.h>
 #include "scenes.h"
-#include "utils.h"
 
 linked_list_t *load_scenes(engine_t *engine)
 {

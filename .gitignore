@@ -6,3 +6,5 @@ build-optimization
 debug
 optimization
 coverage
+compile_commands.json
+.cache

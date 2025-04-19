@@ -8,14 +8,11 @@
 #include <stdlib.h>
 #include <SFML/Graphics.h>
 #include "engine.h"
-#include "my_lib.h"
 #include "my_world.h"
 #include "structure.h"
 #include "ressources.h"
-#include "hashtable.h"
 #include "scenes.h"
 #include "utils.h"
-#include "events.h"
 
 void load_principal(engine_t *engine)
 {

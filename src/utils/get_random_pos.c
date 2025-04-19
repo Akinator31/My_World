@@ -7,7 +7,6 @@
 
 #include <stdlib.h>
 #include "structure.h"
-#include "engine.h"
 
 sfVector2f get_random_pos(engine_t *engine)
 {

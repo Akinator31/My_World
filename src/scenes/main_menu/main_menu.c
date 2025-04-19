@@ -7,14 +7,12 @@
 
 #include <SFML/Graphics.h>
 #include <stdlib.h>
-#include "my_world.h"
 #include "scenes.h"
 #include "structure.h"
 #include "entity.h"
 #include "my_list.h"
 #include "events.h"
 #include "utils.h"
-#include "engine.h"
 #include "animations.h"
 
 void render_main_page(scene_t *scene, engine_t *engine)
@@ -72,7 +70,7 @@ void destroy_main_page(scene_t *scene)
 {
     linked_list_t *temp = scene->entity_list;
 
-    for (int i = 0; temp != NULL; i++) {
+    while (temp) {
         ((entity_t *)temp->data)->entity_destroy(temp->data);
         temp = temp->next;
     }

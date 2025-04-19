@@ -5,182 +5,97 @@
 ## Makefile for my_world project
 ##
 
-SRC_MAIN    =     src/main.c
+SRC_DIR     	=	src
+LIB_DIR     	=	lib
+TESTS_DIR		=	tests
+BUILD_DIR   	=	build
+BUILD_DEBUG 	=	build-debug
+BUILD_TESTS 	=	build-tests
+INCLUDE_DIRS	=	include
 
-SRC_ENGINE  =     src/engine/utils/engine_utils.c \
-                  src/engine/engine.c
+SRC          	=	$(shell find $(SRC_DIR) -name "*.c")
+TESTS        	=	$(shell find . -name "*.c" ! -name "main.c")
+LIB_SRC      	=	$(shell find $(LIB_DIR) -name "*.c")
+INCLUDE_SRC		=	$(shell find $(INCLUDE_DIRS) -type d)
 
-SRC_EVENT   =     src/event/event_manager.c \
-                  src/event/utils/event_utils.c
+OBJ          	= 	$(SRC:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
+LIB_OBJ      	= 	$(LIB_SRC:$(LIB_DIR)/%.c=$(BUILD_DIR)/lib/%.o)
+OBJ_DEBUG    	= 	$(SRC:$(SRC_DIR)/%.c=$(BUILD_DEBUG)/%.o)
+OBJ_TESTS    	= 	$(TESTS:$(TESTS_DIR)/%.c=$(BUILD_TESTS)/%.o)
 
-SRC_ENTITY  =     src/entity/entity.c \
-                  src/entity/utils/entity_utils.c
+CC           	= 	gcc
+INCLUDE      	= 	$(INCLUDE_SRC:%=-I%)
+CFLAGS       	= 	-Wall -Wextra -lm $(INCLUDE) -lcsfml-audio \
+					-lcsfml-graphics -lcsfml-window -lcsfml-network \
+					-lcsfml-system -Wno-unused-function
+DEBUG_FLAGS  	= 	-fsanitize=address -g3 $(CFLAGS)
+TEST_FLAGS   	= 	$(CFLAGS) --coverage -lgcov -lcriterion
 
-SRC_ANIMATIONS    =     src/animations/rotating/rotating_animation.c \
-                        src/animations/bouncing/bouncing.c \
-                        src/animations/button/button_anim.c \
+NAME         	= 	my_world
+DEBUG_NAME   	= 	debug
+TESTS_NAME   	= 	tests_my_world
 
-SRC_SCENES  =     src/scenes/main_menu/main_menu.c \
-                  src/scenes/scenes_manager.c \
-                  src/scenes/game/game_scene.c \
-                  src/scenes/settings_menu/settings_menu.c \
-                  src/scenes/creat_map/creat_map.c \
-                  src/scenes/utils/scenes_utils.c
+COLOR_RED		=	\e[1;34m
+COLOR_GREEN		=	\e[1;32m
+COLOR_RESET		=	\e[0m
 
-SRC_RESSOURCES    =     src/ressources/ressources_manager.c
+all: $(NAME)
 
-SRC_UTILS   =     src/utils/check_screen_size.c \
-                  src/utils/set_sprite_hover.c \
-                  src/utils/create_window.c \
-                  src/utils/get_scene_by_id.c \
-                  src/utils/create_array_int.c \
-                  src/utils/create_2d_map.c \
-                  src/utils/help_display.c \
-                  src/utils/switch_music.c \
-                  src/utils/get_random_pos.c \
-                  src/utils/multi_array_vector.c \
-                  src/utils/mute_or_unmute_music.c \
-                  src/utils/is_mouse_on_sprite.c \
-                  src/utils/draw_2d_map.c \
-                  src/utils/get_input_on_map.c \
-                  src/utils/alloc_error.c \
-                  src/utils/free_map.c \
-                  src/utils/get_state.c \
-
-SRC_LIB_MY_LIST   =     lib/my_list/remove_data.c \
-                        lib/my_list/info_list.c \
-                        lib/my_list/add_data.c
-
-SRC_LIB_SECURED   =     lib/secured/hash_table/creat_hash_table.c \
-                        lib/secured/hash_table/hash_table_delete.c \
-                        lib/secured/hash_table/hash_table_search.c \
-                        lib/secured/hash_table/hash_table_dump.c \
-                        lib/secured/hash_table/hash_table_insert.c \
-                        lib/secured/tools/my_getnbr.c \
-                        lib/secured/hash_table/delete_hash_table.c \
-                        lib/secured/tools/get_str_in_nbr.c \
-                        lib/secured/tools/my_nbrlen.c \
-                        lib/secured/hash_function/other_hash_function.c \
-                        lib/secured/tools/abs.c \
-                        lib/secured/tools/my_nbr_to_str.c
-
-SRC_LIB_MY_LIB    =     lib/my_lib/my_putstr.c \
-                        lib/my_lib/my_put_nbr.c \
-                        lib/my_lib/my_strlen.c \
-                        lib/my_lib/my_strcpy.c \
-                        lib/my_lib/my_putchar.c \
-                        lib/my_lib/my_strnum.c \
-                        lib/my_lib/my_strlowcase.c \
-                        lib/my_lib/my_strcmp.c
-
-SRC_LIB_MY_PRINTF =     lib/my_printf/mini_printf.c
-
-TESTS_CRITERION =   tests/lib/criterion_lib_tests.c \
-                    tests/lib/criterion_list_tests.c \
-                    tests/lib/criterion_miniprintf_tests.c \
-                    tests/lib/criterion_hashtable_tests.c \
-
-SRC   =     $(SRC_MAIN) \
-            $(SRC_ENGINE) \
-            $(SRC_EVENT) \
-            $(SRC_ENTITY) \
-            $(SRC_ANIMATIONS) \
-            $(SRC_SCENES) \
-            $(SRC_RESSOURCES) \
-            $(SRC_UTILS) \
-            $(SRC_LIB_MY_LIST) \
-            $(SRC_LIB_SECURED) \
-            $(SRC_LIB_MY_LIB) \
-            $(SRC_LIB_MY_PRINTF)
-
-TESTS   =   $(SRC_ENGINE) \
-            $(SRC_EVENT) \
-            $(SRC_ENTITY) \
-            $(SRC_ANIMATIONS) \
-            $(SRC_SCENES) \
-            $(SRC_RESSOURCES) \
-            $(SRC_UTILS) \
-            $(SRC_LIB_MY_LIST) \
-            $(SRC_LIB_SECURED) \
-            $(SRC_LIB_MY_LIB) \
-            $(SRC_LIB_MY_PRINTF) \
-            $(TESTS_CRITERION)
-
-INCLUDE_H   =     include/lib \
-                  include/my_world
-
-INCLUDE     =   $(INCLUDE_H:%=-I%)
-
-OBJ   = 	$(SRC:%.c=build/%.o)
-
-OBJ_DEBUG   =     $(SRC:%.c=build-debug/%.o)
-
-OBJ_TESTS  =     $(TESTS:%.c=build-tests/%.o)
-
-CFLAGS      += 	-lcsfml-audio -lcsfml-graphics -lcsfml-window \
-			-lcsfml-network -lcsfml-system -Wextra -Wall -lm $(INCLUDE)
-DEBUG_FLAGS =     -fsanitize=address -g3 -lcsfml-audio -lcsfml-graphics \
-			      -lcsfml-window -lcsfml-network -lcsfml-system \
-			      -Wextra -Wall -lm $(INCLUDE)
-TEST_FLAGS  =   -lcsfml-audio -lcsfml-graphics -lcsfml-window \
-			-lcsfml-network -lcsfml-system -Wextra -Wall -lm $(INCLUDE) \
-            --coverage -lgcov -lcriterion
-
-NAME  =      my_world
-
-DEBUG_NAME  =      debug
-
-TESTS_NAME  =   tests_my_world
-
-all:  $(NAME)
-
-status:
-	@echo "\033[31mBuilding project ...\033[0m";
-
-build/%.o:  %.c
+$(BUILD_DIR)/lib/%.o: $(LIB_DIR)/%.c
 	@mkdir -p $(dir $@)
-	@echo "\033[31mBuilding $<\033[0m";
+	@echo "$(COLOR_RED)Building library object $<$(COLOR_RESET)"
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-build-debug/%.o:  %.c
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(dir $@)
-	@echo "\033[31mBuilding $<\033[0m";
-	$(CC) $(DEBUG_FLAGS) -c $< -o $@
+	@echo "$(COLOR_RED)Building $<$(COLOR_RESET)"
+	@$(CC) $(CFLAGS) -c $< -o $@
 
-build-tests/%.o: %.c
+$(BUILD_DEBUG)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(dir $@)
-	@echo "\033[31mBuilding $<\033[0m";
-	$(CC) $(TEST_FLAGS) -c $< -o $@
+	@echo "$(COLOR_RED)Building $< for debugging$(COLOR_RESET)"
+	@$(CC) $(DEBUG_FLAGS) -c $< -o $@
 
-$(NAME):    status $(OBJ)
-	@$(CC) -o $(NAME) $(OBJ) $(CFLAGS);
-	@echo "\033[32mProject build successfully !\033[0m";
+$(BUILD_TESTS)/%.o: tests/%.c
+	@mkdir -p $(dir $@)
+	@echo "$(COLOR_RED)Building $< for testing$(COLOR_RESET)"
+	@$(CC) $(TEST_FLAGS) -c $< -o $@
 
-$(DEBUG_NAME):    $(OBJ_DEBUG)
-	$(CC) -o $(DEBUG_NAME) $(OBJ_DEBUG) $(DEBUG_FLAGS)
-	@echo "\033[32mProject build successfully !\033[0m";
+$(NAME): $(OBJ) $(LIB_OBJ)
+	@echo "$(COLOR_RED)Linking $(NAME)$(COLOR_RESET)"
+	@$(CC) -o $(NAME) $(OBJ) $(LIB_OBJ) $(CFLAGS)
+	@echo "$(COLOR_GREEN)Project built successfully!$(COLOR_RESET)"
 
-tests_run:  $(OBJ_TESTS)
-	$(CC) -o $(TESTS_NAME) $(OBJ_TESTS) $(TEST_FLAGS)
-	./$(TESTS_NAME)
+$(DEBUG_NAME): $(OBJ_DEBUG) $(LIB_OBJ)
+	@echo "$(COLOR_RED)Linking $(DEBUG_NAME)$(COLOR_RESET)"
+	@$(CC) -o $(DEBUG_NAME) $(OBJ_DEBUG) $(LIB_OBJ) $(DEBUG_FLAGS)
+	@echo "$(COLOR_GREEN)Debug build completed!$(COLOR_RESET)"
+
+$(TESTS_NAME): $(OBJ_TESTS)
+	@echo "$(COLOR_RED)Linking $(TESTS_NAME)$(COLOR_RESET)"
+	@$(CC) -o $(TESTS_NAME) $(OBJ_TESTS) $(TEST_FLAGS)
+	@echo "$(COLOR_GREEN)Tests build completed!$(COLOR_RESET)"
+
+tests_run: $(TESTS_NAME)
+	@echo "$(COLOR_RED)Running tests...$(COLOR_RESET)"
+	@./$(TESTS_NAME)
 
 show_test: tests_run
-	mkdir -p coverage
-	gcovr -r . --html --html-details -o coverage/index.html
-	firefox coverage/index.html
+	@mkdir -p coverage
+	@gcovr -r . --html --html-details -o coverage/index.html
+	@firefox coverage/index.html
 
 clean:
-	@$(RM) $(OBJ)
+	@$(RM) my_world debug tests_my_world
+	@echo "$(COLOR_GREEN)Object files cleaned!$(COLOR_RESET)"
 
 fclean: clean
-	@$(RM) $(NAME)
-	@$(RM) $(DEBUG_NAME)
-	@$(RM) $(TESTS_NAME)
-	@$(RM) -r build-tests
-	@$(RM) -r build-debug
-	@$(RM) -r build
-	@echo "\033[32mProject cleaned !\033[0m";
+	@$(RM) $(NAME) $(DEBUG_NAME) $(TESTS_NAME)
+	@$(RM) -r $(BUILD_DIR) $(BUILD_DEBUG) $(BUILD_TESTS)
+	@$(RM) *.gcda
+	@$(RM) *.gcno
+	@echo "$(COLOR_GREEN)Project cleaned!$(COLOR_RESET)"
 
-re:   fclean all
+re: fclean all
 
-.PHONY:     all clean fclean re
+.PHONY: all clean fclean re tests_run show_test

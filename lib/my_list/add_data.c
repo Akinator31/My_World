@@ -8,7 +8,6 @@
 #include <stdlib.h>
 #include <sys/stat.h>
 #include "my_list.h"
-#include "my_lib.h"
 #include <stdarg.h>
 
 linked_list_t *push_front_list(linked_list_t *list, void *data)
