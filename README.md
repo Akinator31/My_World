@@ -1,12 +1,12 @@
-# My World - 3D Map Editor
+# My World - 2D Map Editor
 
-A 3D terrain editor made with CSFML that allows you to create, modify and visualize 3D landscapes in an isometric view.
+A 2D terrain editor made with CSFML that allows you to create, modify and visualize 2D landscapes in an isometric view.
 
 ![image](https://github.com/user-attachments/assets/c6ad4327-3e8b-4b40-85d2-0e6aebbca7cf)
 
 ## Overview
 
-My World is a 3D map editor that lets you create and edit terrain maps in real-time. The project uses the CSFML graphics library to render an isometric view of the terrain that can be modified through various tools and controls.
+My World is a 2D map editor that lets you create and edit terrain maps in real-time. The project uses the CSFML graphics library to render an isometric view of the terrain that can be modified through various tools and controls.
 
 ## Features
 
@@ -24,7 +24,7 @@ My World is a 3D map editor that lets you create and edit terrain maps in real-t
     - Flatten tool for leveling terrain
 
 - **Visualization**
-  - Isometric 3D view
+  - Isometric 2D view
   - Dynamic terrain coloring based on height
   - Camera controls:
     - Rotation (A/E keys)
